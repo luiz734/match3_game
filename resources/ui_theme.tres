@@ -19,17 +19,18 @@ texture_margin_bottom = 32.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j5jwn"]
 texture = ExtResource("2_u3nh1")
-texture_margin_left = 32.0
-texture_margin_top = 32.0
-texture_margin_right = 32.0
-texture_margin_bottom = 32.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6tymq"]
-texture = ExtResource("2_u3nh1")
 texture_margin_left = 16.0
 texture_margin_top = 16.0
 texture_margin_right = 16.0
 texture_margin_bottom = 16.0
+modulate_color = Color(1, 0.580392, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6tymq"]
+texture = ExtResource("2_u3nh1")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oguj2"]
 texture = ExtResource("2_u3nh1")
@@ -50,7 +51,7 @@ default_font_size = 18
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_disabled_color = Color(0, 0, 0, 1)
 Button/colors/font_focus_color = Color(0, 0, 0, 1)
-Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
 Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
 Button/colors/font_outline_color = Color(0, 0, 0, 1)
 Button/colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -63,7 +64,7 @@ Button/colors/icon_pressed_color = Color(0, 0, 0, 1)
 Button/constants/h_separation = 0
 Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
-Button/font_sizes/font_size = 18
+Button/font_sizes/font_size = 20
 Button/fonts/font = ExtResource("1_sdifh")
 Button/styles/disabled = SubResource("StyleBoxTexture_hdx1x")
 Button/styles/focus = SubResource("StyleBoxTexture_jt0mx")

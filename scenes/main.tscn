@@ -1,13 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dvity0wyv68cy"]
+[gd_scene load_steps=5 format=3 uid="uid://dvity0wyv68cy"]
 
-[ext_resource type="Texture2D" uid="uid://btgohxqhft26q" path="res://assets/drawables/9pr_dialog_dark.png" id="2_i1ruj"]
-[ext_resource type="Script" path="res://scripts/dialog_container.gd" id="3_abj4i"]
+[ext_resource type="Script" path="res://scenes/ui.gd" id="2_vie5a"]
 [ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="3_tbr7n"]
-[ext_resource type="PackedScene" uid="uid://hd0kc7tauejy" path="res://scenes/character_portrait.tscn" id="4_k5f3x"]
-[ext_resource type="Resource" uid="uid://dep2dpy4w0gqq" path="res://resources/goblin_char.tres" id="5_vdg4f"]
-[ext_resource type="Script" path="res://scripts/ui_margin.gd" id="6_trphb"]
+[ext_resource type="Resource" uid="uid://brlyo0q8fvemj" path="res://resources/child_golbin_dialog.tres" id="4_aqn1s"]
 [ext_resource type="Resource" uid="uid://cf7dox2gj2ehv" path="res://resources/golbin_dialog.tres" id="6_yd0qr"]
-[ext_resource type="Script" path="res://scripts/talking_label.gd" id="8_ftryh"]
 
 [node name="main" type="Node2D"]
 
@@ -16,71 +12,17 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 640.0
-
-[node name="DialogContainer" type="NinePatchRect" parent="UI"]
-texture_filter = 1
-custom_minimum_size = Vector2(300, 300)
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -300.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 1
-mouse_default_cursor_shape = 2
 theme = ExtResource("3_tbr7n")
-texture = ExtResource("2_i1ruj")
-patch_margin_left = 32
-patch_margin_top = 32
-patch_margin_right = 32
-patch_margin_bottom = 32
-script = ExtResource("3_abj4i")
-char_res = ExtResource("5_vdg4f")
-dialog_res = ExtResource("6_yd0qr")
-metadata/_edit_group_ = true
+script = ExtResource("2_vie5a")
+dialogs = Array[Resource("res://resources/scripts/DialogRes.gd")]([ExtResource("6_yd0qr"), ExtResource("4_aqn1s")])
 
-[node name="UIMarginContainer" type="MarginContainer" parent="UI/DialogContainer"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-script = ExtResource("6_trphb")
-margin_width = 1
+[node name="btn_ShowDialog" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 299.0
+offset_top = 66.0
+offset_right = 402.0
+offset_bottom = 151.0
+text = "teste
+"
 
-[node name="hbox" type="HBoxContainer" parent="UI/DialogContainer/UIMarginContainer"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="CharacterPortrait" parent="UI/DialogContainer/UIMarginContainer/hbox" instance=ExtResource("4_k5f3x")]
-layout_mode = 2
-
-[node name="CharacterDialog" type="MarginContainer" parent="UI/DialogContainer/UIMarginContainer/hbox"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-script = ExtResource("6_trphb")
-margin_width = 1
-
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/DialogContainer/UIMarginContainer/hbox/CharacterDialog"]
-clip_contents = false
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-mouse_filter = 2
-text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-context_menu_enabled = true
-script = ExtResource("8_ftryh")
-
-[connection signal="gui_input" from="UI/DialogContainer" to="UI/DialogContainer" method="_on_gui_input"]
+[connection signal="pressed" from="UI/btn_ShowDialog" to="UI" method="_on_button_pressed"]
