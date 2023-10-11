@@ -1,0 +1,112 @@
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://yoxvktkljigt"]
+
+[ext_resource type="FontFile" uid="uid://b8me7q0cx2y8e" path="res://assets/fonts/terminal-grotesque.ttf" id="1_sdifh"]
+[ext_resource type="Texture2D" uid="uid://dhx3pe5vm2sqr" path="res://assets/drawables/9pr_dialog_light.png" id="2_u3nh1"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hdx1x"]
+texture = ExtResource("2_u3nh1")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jt0mx"]
+texture = ExtResource("2_u3nh1")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j5jwn"]
+texture = ExtResource("2_u3nh1")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6tymq"]
+texture = ExtResource("2_u3nh1")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oguj2"]
+texture = ExtResource("2_u3nh1")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
+
+[sub_resource type="FontVariation" id="FontVariation_ny5m6"]
+base_font = ExtResource("1_sdifh")
+spacing_glyph = 2
+spacing_space = 1
+spacing_bottom = 2
+
+[resource]
+default_font = ExtResource("1_sdifh")
+default_font_size = 18
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(0, 0, 0, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/colors/icon_disabled_color = Color(0, 0, 0, 1)
+Button/colors/icon_focus_color = Color(0, 0, 0, 1)
+Button/colors/icon_hover_color = Color(0, 0, 0, 1)
+Button/colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/icon_normal_color = Color(0, 0, 0, 1)
+Button/colors/icon_pressed_color = Color(0, 0, 0, 1)
+Button/constants/h_separation = 0
+Button/constants/icon_max_width = 0
+Button/constants/outline_size = 0
+Button/font_sizes/font_size = 18
+Button/fonts/font = ExtResource("1_sdifh")
+Button/styles/disabled = SubResource("StyleBoxTexture_hdx1x")
+Button/styles/focus = SubResource("StyleBoxTexture_jt0mx")
+Button/styles/hover = SubResource("StyleBoxTexture_j5jwn")
+Button/styles/normal = SubResource("StyleBoxTexture_6tymq")
+Button/styles/pressed = SubResource("StyleBoxTexture_oguj2")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(1, 1, 1, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 1)
+Label/constants/line_spacing = 2
+Label/constants/outline_size = 1
+Label/constants/shadow_offset_x = 0
+Label/constants/shadow_offset_y = 0
+Label/constants/shadow_outline_size = 0
+Label/font_sizes/font_size = 20
+Label/fonts/font = ExtResource("1_sdifh")
+Label/styles/normal = null
+RichTextLabel/colors/default_color = Color(1, 1, 1, 1)
+RichTextLabel/colors/font_outline_color = Color(1, 1, 1, 1)
+RichTextLabel/colors/font_selected_color = Color(0, 0, 0, 1)
+RichTextLabel/colors/font_shadow_color = Color(0, 0, 0, 1)
+RichTextLabel/colors/selection_color = Color(0, 0, 0, 1)
+RichTextLabel/colors/table_border = Color(0, 0, 0, 1)
+RichTextLabel/colors/table_even_row_bg = Color(0, 0, 0, 1)
+RichTextLabel/colors/table_odd_row_bg = Color(0, 0, 0, 1)
+RichTextLabel/constants/line_separation = 2
+RichTextLabel/constants/outline_size = 1
+RichTextLabel/constants/shadow_offset_x = 0
+RichTextLabel/constants/shadow_offset_y = 0
+RichTextLabel/constants/shadow_outline_size = 0
+RichTextLabel/constants/table_h_separation = 0
+RichTextLabel/constants/table_v_separation = 0
+RichTextLabel/constants/text_highlight_h_padding = 0
+RichTextLabel/constants/text_highlight_v_padding = 0
+RichTextLabel/font_sizes/bold_font_size = 18
+RichTextLabel/font_sizes/bold_italics_font_size = 18
+RichTextLabel/font_sizes/italics_font_size = 18
+RichTextLabel/font_sizes/mono_font_size = 18
+RichTextLabel/font_sizes/normal_font_size = 20
+RichTextLabel/fonts/bold_font = ExtResource("1_sdifh")
+RichTextLabel/fonts/bold_italics_font = ExtResource("1_sdifh")
+RichTextLabel/fonts/italics_font = ExtResource("1_sdifh")
+RichTextLabel/fonts/mono_font = ExtResource("1_sdifh")
+RichTextLabel/fonts/normal_font = SubResource("FontVariation_ny5m6")
+RichTextLabel/styles/focus = null
+RichTextLabel/styles/normal = null
