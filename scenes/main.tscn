@@ -1,13 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://dvity0wyv68cy"]
+[gd_scene load_steps=11 format=3 uid="uid://dvity0wyv68cy"]
 
 [ext_resource type="Script" path="res://scenes/ui.gd" id="2_vie5a"]
 [ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="3_tbr7n"]
 [ext_resource type="Resource" uid="uid://brlyo0q8fvemj" path="res://resources/child_golbin_dialog.tres" id="4_aqn1s"]
+[ext_resource type="Texture2D" uid="uid://6kbyyajjt0rn" path="res://assets/drawables/heart.png" id="6_im0sc"]
+[ext_resource type="Script" path="res://scripts/ui_margin.gd" id="6_trphb"]
 [ext_resource type="Resource" uid="uid://cf7dox2gj2ehv" path="res://resources/golbin_dialog.tres" id="6_yd0qr"]
+[ext_resource type="Script" path="res://scenes/Grid.gd" id="7_p160e"]
+[ext_resource type="Resource" uid="uid://bfbjxx0otbif6" path="res://resources/heart.tres" id="8_t5w4a"]
+[ext_resource type="Resource" uid="uid://pcg0e03y3xgx" path="res://resources/pumpkin.tres" id="10_2y6u4"]
+[ext_resource type="Script" path="res://scenes/actions.gd" id="10_3sid1"]
 
 [node name="main" type="Node2D"]
 
 [node name="UI" type="Control" parent="."]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1152.0
@@ -16,13 +23,63 @@ theme = ExtResource("3_tbr7n")
 script = ExtResource("2_vie5a")
 dialogs = Array[Resource("res://resources/scripts/DialogRes.gd")]([ExtResource("6_yd0qr"), ExtResource("4_aqn1s")])
 
+[node name="Topbar" type="HBoxContainer" parent="UI"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 80.0
+grow_horizontal = 2
+alignment = 2
+
+[node name="UIMarginContainer" type="MarginContainer" parent="UI/Topbar"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("6_trphb")
+
+[node name="Resource" type="HBoxContainer" parent="UI/Topbar/UIMarginContainer"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="UI/Topbar/UIMarginContainer/Resource"]
+layout_mode = 2
+texture = ExtResource("6_im0sc")
+expand_mode = 3
+
+[node name="Amount" type="Label" parent="UI/Topbar/UIMarginContainer/Resource"]
+layout_mode = 2
+text = "2000"
+
 [node name="btn_ShowDialog" type="Button" parent="UI"]
+visible = false
 layout_mode = 0
-offset_left = 299.0
-offset_top = 66.0
-offset_right = 402.0
-offset_bottom = 151.0
+offset_left = 870.0
+offset_top = 62.0
+offset_right = 973.0
+offset_bottom = 147.0
 text = "teste
 "
+
+[node name="Grid" type="GridContainer" parent="UI"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 2
+script = ExtResource("7_p160e")
+pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("8_t5w4a"), ExtResource("10_2y6u4")])
+
+[node name="actions" type="VBoxContainer" parent="UI"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 653.0
+offset_top = 1.0
+offset_right = 1153.0
+offset_bottom = 1.0
+grow_vertical = 2
+script = ExtResource("10_3sid1")
 
 [connection signal="pressed" from="UI/btn_ShowDialog" to="UI" method="_on_button_pressed"]

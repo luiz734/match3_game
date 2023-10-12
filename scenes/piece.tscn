@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://kb7l5f04hxbk"]
+
+[ext_resource type="Texture2D" uid="uid://ccj7f0nc866kh" path="res://assets/drawables/empty.png" id="1_pemf4"]
+[ext_resource type="Script" path="res://scenes/Piece.gd" id="2_plhdh"]
+
+[node name="Piece" type="TextureRect"]
+custom_minimum_size = Vector2(128, 128)
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+texture = ExtResource("1_pemf4")
+script = ExtResource("2_plhdh")
+
+[node name="Index" type="Label" parent="."]
+layout_mode = 0
+offset_left = 102.0
+offset_top = 12.0
+offset_right = 142.0
+offset_bottom = 38.0
+text = "0"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PieceRes" load_steps=3 format=3 uid="uid://pcg0e03y3xgx"]
+
+[ext_resource type="Script" path="res://resources/scripts/piece_res.gd" id="1_47dpa"]
+[ext_resource type="Texture2D" uid="uid://w37iicsx8xyh" path="res://assets/drawables/pumpkin.png" id="2_gpc5e"]
+
+[resource]
+script = ExtResource("1_47dpa")
+sprite = ExtResource("2_gpc5e")
+points = 20
+type = 1
+matches = Array[int]([1])
