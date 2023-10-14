@@ -54,6 +54,7 @@ layout_mode = 2
 text = "2000"
 
 [node name="actions" type="VBoxContainer" parent="UI"]
+clip_contents = true
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 1
 anchors_preset = 9

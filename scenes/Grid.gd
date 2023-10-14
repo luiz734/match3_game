@@ -38,8 +38,8 @@ func _ready():
 #    seed(9) # T
     rng.randomize()
     var seed = rng.randi()
-    seed(seed)
-    print(seed)
+    seed(2492608867)
+#    print(seed)
     
     var current_seed = rng.get_seed()
     assert(not pieces_resources.is_empty(), "Add at least 1 piece resource")
@@ -48,6 +48,7 @@ func _ready():
     create_pieces()
     
 func next_match():
+    Events.new_match_found.emit("clear")
     var candidates = match3_core.get_candidate_matches_as_arrays(pieces, grid_size, cmp_func)
     
     Events.new_match_found.emit("candidates")

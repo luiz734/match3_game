@@ -2,12 +2,17 @@ extends Node
 
 class_name Match3Core
 
+## Maximum length for a match of type "N in a row or col". 
+const MAX_N_LENGTH = 5
+
 enum Direction {
     HORIZONTAL,
     VERTICAL,
 }
 
 var removed_from_poll: Array[bool] = []
+var used_subseqs: Array[bool] = []
+
 
 class MatchData:
     var index: int
@@ -23,6 +28,7 @@ class MatchData:
 func _init(grid_size):
     for i in range(grid_size * grid_size):
         removed_from_poll.push_back(false)
+        used_subseqs.push_back(false)
 
 func remove_from_poll(arr: Array):
     for a in arr:
@@ -167,24 +173,23 @@ func find_match_T(matches_h: Array, matches_v: Array, grid_size):
 ## Elements are equal when cmp_func returns true.
 ## Returns [length, start_idx].
 ## "end" is NOT INCLUSIVE.
-func _get_max_subseq_line(grid: Array, start: int, end: int, step: int, cmp_func: Callable) -> Array:
+func _get_subseqs_line(grid: Array, start: int, end: int, step: int, cmp_func: Callable) -> Array:
     var last_piece: Piece = grid[start]
     start = start + step
     var count := 1
     for i in range(start, end, step):
         var cur_piece: Piece = grid[i]
-        if cmp_func.call(cur_piece, last_piece):
+        if cmp_func.call(cur_piece, last_piece) and count < MAX_N_LENGTH:
             count += 1
         else:
-            var subseq := _get_max_subseq_line(grid, i, end, step, cmp_func)
-            if subseq[0] > count:
-                return subseq
-            else:
-                return [count, start - step]
+            var subseq := _get_subseqs_line(grid, i, end, step, cmp_func)
+            subseq.push_back([count, start - step])
+            return subseq
+            
         last_piece = cur_piece
     
 #    print("index", start - step, " length", count)
-    return [count, start - step]
+    return [[count, start - step]]
       
 ## Converts each match from MatchData to a raw array. Returns all of them combined.
 func matchdata_to_raw_arrays(matches: Array[MatchData], grid_size: int) -> Array[Array]:
@@ -207,7 +212,6 @@ func matchdata_to_raw_arrays(matches: Array[MatchData], grid_size: int) -> Array
             
     return seqs
 
-
 ## Get a list of max sequence of pieces that match for each row and column
 func get_max_subseq_all_lines(grid: Array, grid_size: int, cmp_func: Callable) -> Array[MatchData]:
     var matches: Array[MatchData] = []
@@ -217,26 +221,28 @@ func get_max_subseq_all_lines(grid: Array, grid_size: int, cmp_func: Callable) -
         var start = i * grid_size
         var end = (i + 1) * grid_size
         var step = 1
-        var max_subseq = _get_max_subseq_line(grid, start, end, step, cmp_func)
-        matches.push_back(
-            MatchData.new(
-                max_subseq[1],              # index
-                max_subseq[0],              # length
-                self.Direction.HORIZONTAL   # direction
-            )
+        var subseqs_line = _get_subseqs_line(grid, start, end, step, cmp_func)
+        for subseq in subseqs_line:
+            matches.push_back(
+                MatchData.new(
+                    subseq[1],                  # index
+                    subseq[0],                  # length
+                    self.Direction.HORIZONTAL   # direction
+                )
         )
     # vertical
     for i in range(grid_size):
         var start = i
         var end = (grid_size * grid_size) + i
         var step = grid_size
-        var max_subseq = _get_max_subseq_line(grid, start, end, step, cmp_func)
-        matches.push_back(
-            MatchData.new(
-                max_subseq[1],              # index
-                max_subseq[0],              # length
-                self.Direction.VERTICAL     # direction
-            )
+        var subseqs_line = _get_subseqs_line(grid, start, end, step, cmp_func)
+        for subseq in subseqs_line:
+            matches.push_back(
+                MatchData.new(
+                    subseq[1],                  # index
+                    subseq[0],                  # length
+                    self.Direction.VERTICAL     # direction
+                )
         )
 
     return matches
