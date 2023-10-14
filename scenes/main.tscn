@@ -24,6 +24,7 @@ script = ExtResource("2_vie5a")
 dialogs = Array[Resource("res://resources/scripts/DialogRes.gd")]([ExtResource("6_yd0qr"), ExtResource("4_aqn1s")])
 
 [node name="Topbar" type="HBoxContainer" parent="UI"]
+visible = false
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 1
 anchors_preset = 10
@@ -52,34 +53,30 @@ expand_mode = 3
 layout_mode = 2
 text = "2000"
 
-[node name="btn_ShowDialog" type="Button" parent="UI"]
-visible = false
-layout_mode = 0
-offset_left = 870.0
-offset_top = 62.0
-offset_right = 973.0
-offset_bottom = 147.0
-text = "teste
-"
-
-[node name="Grid" type="GridContainer" parent="UI"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-columns = 2
-script = ExtResource("7_p160e")
-pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("8_t5w4a"), ExtResource("10_2y6u4")])
-
 [node name="actions" type="VBoxContainer" parent="UI"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_left = 653.0
-offset_top = 1.0
-offset_right = 1153.0
-offset_bottom = 1.0
+offset_left = 1085.0
+offset_top = 5.0
+offset_right = 1585.0
+offset_bottom = -126.0
 grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
 script = ExtResource("10_3sid1")
+
+[node name="Grid" type="Node2D" parent="UI"]
+script = ExtResource("7_p160e")
+pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("8_t5w4a"), ExtResource("10_2y6u4")])
+
+[node name="btn_ShowDialog" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 1295.0
+offset_top = 731.0
+offset_right = 1409.0
+offset_bottom = 816.0
+text = "Match"
 
 [connection signal="pressed" from="UI/btn_ShowDialog" to="UI" method="_on_button_pressed"]

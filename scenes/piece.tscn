@@ -8,6 +8,7 @@ custom_minimum_size = Vector2(128, 128)
 mouse_filter = 0
 mouse_default_cursor_shape = 2
 texture = ExtResource("1_pemf4")
+expand_mode = 2
 script = ExtResource("2_plhdh")
 
 [node name="Index" type="Label" parent="."]

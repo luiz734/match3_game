@@ -12,3 +12,9 @@ signal user_skip_talk
 
 ## when user send some input option on the gui (like choose yes or no)
 signal user_confirm(data)
+
+signal new_match_found(m)
+
+signal piece_index_changed(piece: Piece)
+
+signal piece_removed_from_poll(index: int)

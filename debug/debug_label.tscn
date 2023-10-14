@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://c4tp8jy850cf3"]
+
+[node name="DebugLabel" type="Label"]
+text = "teste"

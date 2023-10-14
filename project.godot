@@ -20,6 +20,11 @@ config/icon="res://assets/drawables/icon.svg"
 Res="*res://scripts/globals/res.gd"
 Events="*res://scripts/globals/events.gd"
 
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=900
+
 [input]
 
 confirm={

@@ -1,11 +1,11 @@
 extends VBoxContainer
 
+const DebugLabel = preload("res://debug/debug_label.tscn")
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-    pass # Replace with function body.
+    Events.connect("new_match_found", on_new_match_found)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-    pass
+func on_new_match_found(m):
+    var dl: Label = DebugLabel.instantiate()
+    dl.text = str(m)
+    add_child(dl)
