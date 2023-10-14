@@ -4,19 +4,23 @@ class_name Match3Core
 
 ## Maximum length for a match of type "N in a row or col". 
 const MAX_N_LENGTH = 5
+## Elements that cant be used anymore.
+var removed_from_poll: Array[bool] = [] 
 
+
+## --------------- auxiliar classes & enums ---------------
+## The direction of a sequence.
 enum Direction {
     HORIZONTAL,
     VERTICAL,
 }
-
-var removed_from_poll: Array[bool] = []
-var used_subseqs: Array[bool] = []
-
-
-class MatchData:
+## Represents a sequence of the same elements in a line.
+class SequenceData:
+    ## Where it starts.
     var index: int
+    ## The length.
     var length: int
+    ## Horizontal or Vertical
     var direction: Direction
     
     func _init(index, length, direction):
@@ -24,18 +28,38 @@ class MatchData:
         self.length = length
         self.direction = direction
 
+enum MatchType {
+    NO_MATCH,
+    MATCH_5,
+    MATCH_T,
+    MATCH_4,
+    MATCH_3,
+}
+## Represents a Match
+class MatchData:
+    var type: MatchType
+    var indexes: Array
+    
+    func _init(type: MatchType, indexes: Array):
+        self.type = type
+        self.indexes = indexes
 
-func _init(grid_size):
+
+## --------------- core functionality ---------------
+func _init(grid_size: int) -> void:
     for i in range(grid_size * grid_size):
         removed_from_poll.push_back(false)
-        used_subseqs.push_back(false)
 
+## Remove all elements in arr from the poll.
 func remove_from_poll(arr: Array):
     for a in arr:
         removed_from_poll[a] = true
         Events.piece_removed_from_poll.emit(a)
 
-
+## Finds a match of type N.
+## A sequence of N elements in a line (row or col).
+## The max size of match sequence is given by MAX_N_LENGTH.
+## Returns an array with index of the elements in the match.
 func find_match_N(n: int, matches: Array[Array], grid_size: int) -> Array:
     for m in matches:
         assert(typeof(m[0]) == TYPE_INT)
@@ -43,60 +67,73 @@ func find_match_N(n: int, matches: Array[Array], grid_size: int) -> Array:
             return m
     return []
 
-func remove_duplicates(arr) -> Array:
+## Remove the duplicates of arr.
+## Returns a new array without the duplicates.
+func _remove_duplicates(arr: Array) -> Array:
+    # Uses a dictionary as a set
     var set_arr = {}
     for x in arr:
+        # Dumb value. Could be anything.
         set_arr[str(x)] = null
     var out_arr = []
     for x in set_arr.keys():
         out_arr.push_back(int(x))
     return out_arr
 
-func get_3_first(arr) -> Array:
+## Gets the 3 first elements of an array.
+## Returns these elements as a new array.
+func get_3_first_of_4(arr: Array) -> Array:
+    assert(len(arr) == 4, "Expected an array of 4 as argument.")
     var x = arr.duplicate()
     x.pop_back()
     return x
-    
-func get_3_last(arr) -> Array:
+## Gets the 3 last elements of an array.
+## Returns these elements as a new array. 
+func get_3_last_of_4(arr) -> Array:
+    assert(len(arr) == 4, "Expected an array of 4 as argument.")
     var x = arr.duplicate()
     x.pop_front()
     return x
-
+## Checks if 2 sequence intersects each other making a match T.
+## Returns the elements that make the T match, or an empty array if any.
 func find_T_intersection(match_center: Array, match_edges: Array) -> Array:
-    if len(match_center) > 4 or len(match_edges) > 4: return []
-    
+    assert(len(match_center) <= 4 and len(match_edges) <= 4, "Matches N=5 must be addressed first.")
+        
+    # Break ONE length 4 into TWO length 3. Solve it recursivelly.
     if len(match_center) == 4:
-        var first_3 = get_3_first(match_center)
+        var first_3 = get_3_first_of_4(match_center)
         var first_3_T = find_T_intersection(first_3, match_edges)
         if not first_3_T.is_empty(): return first_3_T
-        var last_3 = get_3_last(match_center)
+        var last_3 = get_3_last_of_4(match_center)
         var last_3_T = find_T_intersection(last_3, match_edges)
-#        if not last_3_T.is_empty(): return last_3_T
         return last_3_T
-        
+    # The same, but swap the checks.
     if len(match_edges) == 4:
-        var first_3 = get_3_first(match_edges)
+        var first_3 = get_3_first_of_4(match_edges)
         var first_3_T = find_T_intersection(match_center, first_3)
         if not first_3_T.is_empty(): return first_3_T
-        var last_3 = get_3_last(match_edges)
+        var last_3 = get_3_last_of_4(match_edges)
         var last_3_T = find_T_intersection(match_center, last_3)
-#        if not last_3_T.is_empty(): return last_3_T
         return last_3_T
     
-    
-    assert(len(match_center) == 3 and len(match_edges) == 3 )
-    
-    var intersect = match_center[1] == match_edges[0] or match_center[1] == match_edges[2]
-    if intersect:
+    assert(len(match_center) == 3 and len(match_edges) == 3)
+    # Base case. Easy to solve.
+    var is_match_T = match_center[1] == match_edges[0] or match_center[1] == match_edges[2]
+    if is_match_T:
         var combined = match_center.duplicate()
         combined.append_array(match_edges)
-        return remove_duplicates(combined)
-              
+        return _remove_duplicates(combined)
+    
+    # If got here, there is no match-T.
     return []
 
-func find_match_T(matches_h: Array, matches_v: Array, grid_size):
-    for mh in matches_h:
-        for mv in matches_v:
+## Check for match-T for all sequences.
+## Return the match-T, if found one.
+func find_match_T(sequence_h: Array, sequence_v: Array, grid_size) -> Array:
+    for mh in sequence_h:
+        for mv in sequence_v:
+            # Try find matches with each of the sequence as "center" part of match-T.
+            # A sequence A is "center" when the other sequence B cross sequence A in half.
             var match_h_center = find_T_intersection(mh, mv)
             if not match_h_center.is_empty(): return match_h_center
             
@@ -105,96 +142,34 @@ func find_match_T(matches_h: Array, matches_v: Array, grid_size):
     
     return []
     
-    
-    
-    # Generate 2 sets (there is no set in godot, but dictionaries can behave like one)
-    # set_matches: a set containing all elements of a list, that can be vertical or horizontal
-    # set_mathces...: the same, bue the first and last elements are removed
-    # EXPLANATION 
-    # 1. if there is a T match, 2 lines intersect
-    # 2. if 2 lines intersect, they MUST have 1 element in common
-    # 3. because a T match can't interset in the edges of both list (woudn't be a T)
-    #    we remove the edges from one of them.
-    var set_matches = {}
-    for x in matches_h:
-        for i in range(0, len(x)):
-            assert(len(x) <= 4, "this will break the logic")
-            set_matches[str(x[i])] = x
-            
-    var set_matches_witout_edges = {}
-    for x in matches_v:
-        for i in range(0, len(x)):
-            if i > 0 and i < len(x) - 1:
-                assert(len(x) <= 4, "this will break the logic")
-                set_matches_witout_edges[str(x[i])] = x
-    
-    # Merge elements that intersect in a big set: we need to know
-    # what are these elements, so we can remove them, animate, etc.
-    var elements_with_duplicates = []
-    for key in set_matches.keys():
-        if set_matches_witout_edges.has(key):
-            # Can be length 4 or 3
-            var longest_T_arm: Array = set_matches.get(key).duplicate()
-            # ALWAYS will be length 2 or less (we remove the edges)
-            var shortest_T_arm: Array = set_matches_witout_edges.get(key).duplicate()
-#            assert(len(shortest_T_arm) <= 2, "should always be true.")
-    
-            # Remove extra tip from longest arm: not part of T match
-            # For length 4, we need to find what tip is not part of the match
-            # The step is calculated based on what is the first arg:
-            # vertical matches or horizontal matches
-            var step = abs(longest_T_arm[0] - longest_T_arm[1])
-            assert(step == 1 or step == grid_size, "step must be 1 or grid_size") 
-            
-            var remove_start = shortest_T_arm.any(func(x):
-                x == longest_T_arm[0] or x == longest_T_arm[0] + step
-            ) and len(longest_T_arm) == 4
-            
-            if remove_start:
-                longest_T_arm.pop_front()
-            else:
-                longest_T_arm.pop_back()
-            
-            elements_with_duplicates = shortest_T_arm
-            elements_with_duplicates.append_array(longest_T_arm)
-    
-            # remove duplicates
-            var set_without_duplicates = {}
-            for e in elements_with_duplicates:
-                set_without_duplicates[str(e)] = null
-            
-            var arr_without_duplicates = Array(set_without_duplicates.keys())
-            return arr_without_duplicates.map(func(x): return int(x))
-    
-    return []
-   
-
-## For a given line (row or col), find the longest sub-sequence of the same element.
+## For a given line (row or col), find all sub-sequences of the same element.
 ## Elements are equal when cmp_func returns true.
-## Returns [length, start_idx].
+## Returns [ [seq1_length, seq1_start_idx] , [seq2_length, seq2_start_idx], ... ].
 ## "end" is NOT INCLUSIVE.
 func _get_subseqs_line(grid: Array, start: int, end: int, step: int, cmp_func: Callable) -> Array:
     var last_piece: Piece = grid[start]
     start = start + step
-    var count := 1
+    var length := 1
     for i in range(start, end, step):
         var cur_piece: Piece = grid[i]
-        if cmp_func.call(cur_piece, last_piece) and count < MAX_N_LENGTH:
-            count += 1
+        if cmp_func.call(cur_piece, last_piece) and length < MAX_N_LENGTH:
+            length += 1
         else:
             var subseq := _get_subseqs_line(grid, i, end, step, cmp_func)
-            subseq.push_back([count, start - step])
+            # Combine the current one with the next ones.
+            subseq.push_back([length, start - step])
             return subseq
-            
         last_piece = cur_piece
-    
-#    print("index", start - step, " length", count)
-    return [[count, start - step]]
+    # Base case. Will be recursivelly combined with the previous ones. 
+    return [[length, start - step]]
       
-## Converts each match from MatchData to a raw array. Returns all of them combined.
-func matchdata_to_raw_arrays(matches: Array[MatchData], grid_size: int) -> Array[Array]:
+## Converts each sequence from SequenceData to a raw array.
+## Only elements in poll are added.
+## Returns all of them in a new array (separated, NOT MERGED).
+## Example: [ [1,2,3], [4, 5, 6] ].
+func sequencedatas_in_poll_to_raw_arrays(sequences: Array[SequenceData], grid_size: int) -> Array[Array]:
     var seqs: Array[Array] = []
-    for m in matches:
+    for m in sequences:
         var s := []
         var start := m.index
         
@@ -212,9 +187,10 @@ func matchdata_to_raw_arrays(matches: Array[MatchData], grid_size: int) -> Array
             
     return seqs
 
-## Get a list of max sequence of pieces that match for each row and column
-func get_max_subseq_all_lines(grid: Array, grid_size: int, cmp_func: Callable) -> Array[MatchData]:
-    var matches: Array[MatchData] = []
+## For all columns/rows, get the list of sequences.
+## Returns all of them in a big array. 
+func get_subseqs_all_lines(grid: Array, grid_size: int, cmp_func: Callable) -> Array[SequenceData]:
+    var matches: Array[SequenceData] = []
     
     # horizontal
     for i in range(grid_size):
@@ -224,7 +200,7 @@ func get_max_subseq_all_lines(grid: Array, grid_size: int, cmp_func: Callable) -
         var subseqs_line = _get_subseqs_line(grid, start, end, step, cmp_func)
         for subseq in subseqs_line:
             matches.push_back(
-                MatchData.new(
+                SequenceData.new(
                     subseq[1],                  # index
                     subseq[0],                  # length
                     self.Direction.HORIZONTAL   # direction
@@ -238,7 +214,7 @@ func get_max_subseq_all_lines(grid: Array, grid_size: int, cmp_func: Callable) -
         var subseqs_line = _get_subseqs_line(grid, start, end, step, cmp_func)
         for subseq in subseqs_line:
             matches.push_back(
-                MatchData.new(
+                SequenceData.new(
                     subseq[1],                  # index
                     subseq[0],                  # length
                     self.Direction.VERTICAL     # direction
@@ -247,19 +223,38 @@ func get_max_subseq_all_lines(grid: Array, grid_size: int, cmp_func: Callable) -
 
     return matches
 
-## Return an array of arrays, with which subarray being a candidate match
-## A candidate match is a match with length 3 or more
+## Return an array of arrays, with which subarray being a candidate match.
+## A candidate match is a match with length 3 or more.
 func get_candidate_matches_as_arrays(pieces: Array, grid_size: int, cmp_func: Callable) -> Array[Array]:
-    var max_subseqs = get_max_subseq_all_lines(pieces, grid_size, cmp_func)
-    # longer matches come first
-    max_subseqs.sort_custom(func(x: MatchData, y: MatchData):
+    var subseqs = get_subseqs_all_lines(pieces, grid_size, cmp_func)
+    # Longer sequences come first
+    subseqs.sort_custom(func(x: SequenceData, y: SequenceData):
         return x.length > y.length
     )
-    
-    var raw_matches: Array[Array] = matchdata_to_raw_arrays(max_subseqs, grid_size)
-    
-    var scorable_raw_matches: Array[Array] = raw_matches.filter(func(x):
+    var raw_subseqs: Array[Array] = sequencedatas_in_poll_to_raw_arrays(subseqs, grid_size)
+    # scorable = candidate to match in this context.
+    var scorable_raw_subseqs: Array[Array] = raw_subseqs.filter(func(x):
         return len(x) >= 3    
     )
-    return scorable_raw_matches
+    return scorable_raw_subseqs
+
+## Returns the next most valuable match, if any.
+## The order of value is: MATCH_5, MATCH_T, MATCH_4, MATCH_3 (most valuable first)
+func get_most_valuable_match(matches: Array, grid_size: int) -> MatchData:
+    var match_5 = find_match_N(5, matches, grid_size)
+    if not match_5.is_empty(): return MatchData.new(MatchType.MATCH_5, match_5)     
+
+    # split 
+    var h_matches = matches.filter(func(x): return abs(x[0] - x[1]) == 1)
+    var v_matches = matches.filter(func(x): return abs(x[0] - x[1]) == grid_size)
+    var match_T = find_match_T(h_matches, v_matches, grid_size)
+    if not match_T.is_empty(): return MatchData.new(MatchType.MATCH_T, match_T)     
+
+    var match_4 = find_match_N(4, matches, grid_size)
+    if not match_4.is_empty(): return MatchData.new(MatchType.MATCH_4, match_4)     
+
+    var match_3 = find_match_N(3, matches, grid_size)
+    if not match_3.is_empty(): return MatchData.new(MatchType.MATCH_3, match_3)     
     
+    return MatchData.new(MatchType.NO_MATCH, [])
+

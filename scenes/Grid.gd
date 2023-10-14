@@ -35,13 +35,11 @@ func piece_removed_from_poll(index: int) -> void:
 var rng = RandomNumberGenerator.new()
 
 func _ready():
-#    seed(9) # T
     rng.randomize()
-    var seed = rng.randi()
-    seed(2492608867)
-#    print(seed)
+    var seed: int = rng.randi()
+    seed(seed)
+    print_debug("Seed:", seed) 
     
-    var current_seed = rng.get_seed()
     assert(not pieces_resources.is_empty(), "Add at least 1 piece resource")
     Events.connect("piece_index_changed", on_piece_index_changed)
     Events.connect("piece_removed_from_poll", piece_removed_from_poll)
@@ -55,60 +53,15 @@ func next_match():
     for c in candidates:
         Events.new_match_found.emit(c)
     
-    var next_match: Dictionary = get_next_valuable_match(candidates, grid_size)
-    var type: String = next_match["type"]
-    var to_remove: Array= next_match["indexes"]
-    match3_core.remove_from_poll(to_remove)
-#
-#    for index in to_remove:
-#        pieces[index].hide_all()
-    Events.new_match_found.emit(type)
-    Events.new_match_found.emit(to_remove)
+    var next_match: Match3Core.MatchData = match3_core.get_most_valuable_match(candidates, grid_size)
+    match3_core.remove_from_poll(next_match.indexes)
+    
+    var type_name = match3_core.MatchType.keys()[next_match.type]
+    Events.new_match_found.emit(type_name)
+    Events.new_match_found.emit(next_match.indexes)
      
 
-func remove_used_matches(matches: Array, used: Array):
-    var i = 0
-    while i < len(matches):
-        var m = matches[i]
-        var remove_match = m.any(func(x):
-            return used.any(func(y):
-                return x == y
-            )
-        )
-        if remove_match:
-            matches.remove_at(i)
-            i -= 1
-        i +=  1
-
-## Side effect: matches gets empty in the process
-func get_next_valuable_match(matches: Array, grid_size):
-   
-    var match_5 = match3_core.find_match_N(5, matches, grid_size)
-    if not match_5.is_empty(): return {"type": "5", "indexes": match_5 }     
-
-    var h_matches = matches.filter(func(x): return abs(x[0] - x[1]) == 1)
-    var v_matches = matches.filter(func(x): return abs(x[0] - x[1]) == grid_size)
-
-    # T's pointing horizontal
-    var match_T = match3_core.find_match_T(h_matches, v_matches, grid_size)
-    if not match_T.is_empty(): return {"type": "T", "indexes": match_T }   
-
-#    # T's pointing vertical
-    var match_Tv = match3_core.find_match_T(v_matches, h_matches, grid_size)
-    if not match_Tv.is_empty(): return {"type": "Tv", "indexes": match_Tv }   
-
-    var match_4 = match3_core.find_match_N(4, matches, grid_size)
-    if not match_4.is_empty(): return {"type": "4", "indexes": match_4 }   
-
-    var match_3 = match3_core.find_match_N(3, matches, grid_size)
-    if not match_3.is_empty(): return {"type": "3", "indexes": match_3 }     
-    
-    return {"type": "none", "indexes": [] }  
-
-
 func cmp_func(a: Piece, b: Piece) -> bool:
-#    if a._piece_res.type == PieceRes.PieceType.NONE\
-#        or b._piece_res.type == PieceRes.PieceType.NONE: return false
     if a.used or b.used: return false
     
     var match_with = b._piece_res.matches.any(func (x):
