@@ -1,5 +1,7 @@
 extends Node
 
+## Has the basic functions for a Match 3 Game.
+## All function DON'T change any argument. Instead, they return a new value.
 class_name Match3Core
 
 ## Maximum length for a match of type "N in a row or col". 
@@ -258,3 +260,29 @@ func get_most_valuable_match(matches: Array, grid_size: int) -> MatchData:
     
     return MatchData.new(MatchType.NO_MATCH, [])
 
+## Returns a new array with all the non-null elements on bottom and all null on top
+## This method DOESN'T change the source array
+func get_notnull_first(grid: Array, grid_size: int, start: int, end: int, step: int) -> Array:
+    var out_arr: Array = []
+    var count = 0
+    for i in range(start, end, step):
+        if grid[i]:
+            out_arr.push_back(grid[i])
+            count += 1
+    for i in range(len(out_arr), grid_size, 1):
+        out_arr.push_back(null)
+    # hack: change the logic so it's not necessary reverse
+#    out_arr.reverse()
+    assert(len(out_arr) == grid_size)
+    return out_arr
+
+func get_removed_from_poll_indexes(grid_size: int) -> Array:
+    var arr = []
+    for i in range(grid_size * grid_size):
+        if removed_from_poll[i]:
+            arr.push_back(i)
+    return arr
+
+func reset_removed_from_poll():
+    for i in range(len(removed_from_poll)):
+        removed_from_poll[i] = false

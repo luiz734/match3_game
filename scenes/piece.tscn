@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://kb7l5f04hxbk"]
 
 [ext_resource type="Texture2D" uid="uid://ccj7f0nc866kh" path="res://assets/drawables/empty.png" id="1_pemf4"]
-[ext_resource type="Script" path="res://scenes/Piece.gd" id="2_plhdh"]
+[ext_resource type="Script" path="res://scripts/piece.gd" id="2_hwyn3"]
 
 [node name="Piece" type="TextureRect"]
 custom_minimum_size = Vector2(128, 128)
@@ -9,7 +9,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 2
 texture = ExtResource("1_pemf4")
 expand_mode = 2
-script = ExtResource("2_plhdh")
+script = ExtResource("2_hwyn3")
 
 [node name="Index" type="Label" parent="."]
 layout_mode = 0

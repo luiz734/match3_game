@@ -5,6 +5,7 @@ enum PieceType {
     NONE,
     PUMPKIN,
     HEART,
+    GHOST,
 }
 
 @export var sprite: Texture2D

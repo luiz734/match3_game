@@ -1,26 +1,30 @@
-[gd_scene load_steps=11 format=3 uid="uid://dvity0wyv68cy"]
+[gd_scene load_steps=12 format=3 uid="uid://dvity0wyv68cy"]
 
-[ext_resource type="Script" path="res://scenes/ui.gd" id="2_vie5a"]
+[ext_resource type="Script" path="res://scripts/ui.gd" id="2_utmi7"]
 [ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="3_tbr7n"]
 [ext_resource type="Resource" uid="uid://brlyo0q8fvemj" path="res://resources/child_golbin_dialog.tres" id="4_aqn1s"]
 [ext_resource type="Texture2D" uid="uid://6kbyyajjt0rn" path="res://assets/drawables/heart.png" id="6_im0sc"]
 [ext_resource type="Script" path="res://scripts/ui_margin.gd" id="6_trphb"]
 [ext_resource type="Resource" uid="uid://cf7dox2gj2ehv" path="res://resources/golbin_dialog.tres" id="6_yd0qr"]
-[ext_resource type="Script" path="res://scenes/Grid.gd" id="7_p160e"]
+[ext_resource type="Script" path="res://debug/actions.gd" id="7_aausm"]
+[ext_resource type="Script" path="res://scripts/grid.gd" id="8_5knni"]
 [ext_resource type="Resource" uid="uid://bfbjxx0otbif6" path="res://resources/heart.tres" id="8_t5w4a"]
 [ext_resource type="Resource" uid="uid://pcg0e03y3xgx" path="res://resources/pumpkin.tres" id="10_2y6u4"]
-[ext_resource type="Script" path="res://scenes/actions.gd" id="10_3sid1"]
+[ext_resource type="Resource" uid="uid://k2jrlbrg028i" path="res://resources/ghost.tres" id="11_y07up"]
 
 [node name="main" type="Node2D"]
 
 [node name="UI" type="Control" parent="."]
+visible = false
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
-offset_right = 1152.0
-offset_bottom = 640.0
+offset_left = 91.0
+offset_top = 41.0
+offset_right = 1243.0
+offset_bottom = 681.0
 theme = ExtResource("3_tbr7n")
-script = ExtResource("2_vie5a")
+script = ExtResource("2_utmi7")
 dialogs = Array[Resource("res://resources/scripts/DialogRes.gd")]([ExtResource("6_yd0qr"), ExtResource("4_aqn1s")])
 
 [node name="Topbar" type="HBoxContainer" parent="UI"]
@@ -66,11 +70,12 @@ offset_bottom = -126.0
 grow_vertical = 2
 mouse_filter = 2
 theme_override_constants/separation = 2
-script = ExtResource("10_3sid1")
+script = ExtResource("7_aausm")
 
 [node name="Grid" type="Node2D" parent="UI"]
-script = ExtResource("7_p160e")
-pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("8_t5w4a"), ExtResource("10_2y6u4")])
+script = ExtResource("8_5knni")
+grid_size = 5
+pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("8_t5w4a"), ExtResource("10_2y6u4"), ExtResource("11_y07up")])
 
 [node name="btn_ShowDialog" type="Button" parent="UI"]
 layout_mode = 0

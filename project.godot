@@ -25,6 +25,10 @@ Events="*res://scripts/globals/events.gd"
 window/size/viewport_width=1600
 window/size/viewport_height=900
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
+
 [input]
 
 confirm={
