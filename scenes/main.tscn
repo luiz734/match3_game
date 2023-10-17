@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dvity0wyv68cy"]
+[gd_scene load_steps=13 format=3 uid="uid://dvity0wyv68cy"]
 
 [ext_resource type="Script" path="res://scripts/ui.gd" id="2_utmi7"]
 [ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="3_tbr7n"]
@@ -11,11 +11,11 @@
 [ext_resource type="Resource" uid="uid://bfbjxx0otbif6" path="res://resources/heart.tres" id="8_t5w4a"]
 [ext_resource type="Resource" uid="uid://pcg0e03y3xgx" path="res://resources/pumpkin.tres" id="10_2y6u4"]
 [ext_resource type="Resource" uid="uid://k2jrlbrg028i" path="res://resources/ghost.tres" id="11_y07up"]
+[ext_resource type="Script" path="res://scripts/piece_group_tweener.gd" id="12_1v2yr"]
 
 [node name="main" type="Node2D"]
 
 [node name="UI" type="Control" parent="."]
-visible = false
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
@@ -73,9 +73,21 @@ theme_override_constants/separation = 2
 script = ExtResource("7_aausm")
 
 [node name="Grid" type="Node2D" parent="UI"]
+position = Vector2(114, 118)
 script = ExtResource("8_5knni")
-grid_size = 5
+grid_size = 7
 pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("8_t5w4a"), ExtResource("10_2y6u4"), ExtResource("11_y07up")])
+
+[node name="PieceGroupTweener" type="Node2D" parent="UI/Grid"]
+script = ExtResource("12_1v2yr")
+
+[node name="ColorRect" type="ColorRect" parent="UI/Grid"]
+z_index = 99
+offset_left = -122.0
+offset_top = -52.0
+offset_right = 750.0
+offset_bottom = 52.0
+color = Color(1, 1, 1, 0.560784)
 
 [node name="btn_ShowDialog" type="Button" parent="UI"]
 layout_mode = 0

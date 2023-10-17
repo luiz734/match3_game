@@ -195,7 +195,7 @@ func get_subseqs_all_lines(grid: Array, grid_size: int, cmp_func: Callable) -> A
     var matches: Array[SequenceData] = []
     
     # horizontal
-    for i in range(grid_size):
+    for i in range(1, grid_size):
         var start = i * grid_size
         var end = (i + 1) * grid_size
         var step = 1
@@ -210,7 +210,7 @@ func get_subseqs_all_lines(grid: Array, grid_size: int, cmp_func: Callable) -> A
         )
     # vertical
     for i in range(grid_size):
-        var start = i
+        var start = i + grid_size
         var end = (grid_size * grid_size) + i
         var step = grid_size
         var subseqs_line = _get_subseqs_line(grid, start, end, step, cmp_func)

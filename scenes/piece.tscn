@@ -3,18 +3,23 @@
 [ext_resource type="Texture2D" uid="uid://ccj7f0nc866kh" path="res://assets/drawables/empty.png" id="1_pemf4"]
 [ext_resource type="Script" path="res://scripts/piece.gd" id="2_hwyn3"]
 
-[node name="Piece" type="TextureRect"]
+[node name="Piece" type="Node2D"]
+script = ExtResource("2_hwyn3")
+
+[node name="TextureRect" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(128, 128)
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
 mouse_filter = 0
 mouse_default_cursor_shape = 2
 texture = ExtResource("1_pemf4")
 expand_mode = 2
-script = ExtResource("2_hwyn3")
 
 [node name="Index" type="Label" parent="."]
-layout_mode = 0
-offset_left = 102.0
-offset_top = 12.0
-offset_right = 142.0
-offset_bottom = 38.0
+offset_left = 42.0
+offset_top = -51.0
+offset_right = 82.0
+offset_bottom = -25.0
 text = "0"
