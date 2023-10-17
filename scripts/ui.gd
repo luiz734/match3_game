@@ -1,6 +1,7 @@
 extends Control
 
-@onready var show_dialog = $btn_ShowDialog
+@onready var show_dialog = $BottomBar2/UIMarginContainer/hbox/btn_Match
+@onready var swap_random = $BottomBar2/UIMarginContainer/hbox/btn_Swap
 @onready var grid = $Grid
 const DialogContainer = preload("res://scenes/dialog_container.tscn")
 
@@ -13,6 +14,10 @@ func on_dialog_finished(choice):
 
 func _on_button_pressed():
     grid.next_match()
+    
+func _on_btn_swap_pressed():
+    grid.swap_random()
+ 
     
 #    if _current_dialog:
 #        return
@@ -28,3 +33,4 @@ func _on_button_pressed():
 #        _current_dialog = null
 #        print_debug('dialog done')
     
+

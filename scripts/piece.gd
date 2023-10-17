@@ -25,3 +25,5 @@ func _ready():
     assert(_piece_res, "call init() before instantiate")
     assert(label_index, "missing child label_index")
     texture_rect.texture = _piece_res.sprite
+    
+    texture_rect.piece = self

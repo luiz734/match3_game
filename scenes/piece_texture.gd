@@ -1,11 +1,13 @@
 extends TextureRect
 
+var piece
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-    pass # Replace with function body.
+func _can_drop_data(at_position, data):
+    return true
 
+func _get_drag_data(at_position):
+    return piece
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-    pass
+func _drop_data(at_position, data):
+    print("text dropped on piece_", piece.index, " from piece_", data.index)
+    Events.swap_requested.emit(piece, data)

@@ -18,3 +18,5 @@ signal new_match_found(m)
 signal piece_index_changed(piece: Piece)
 
 signal piece_removed_from_poll(index: int)
+
+signal swap_requested(a, b)

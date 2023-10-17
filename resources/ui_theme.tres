@@ -1,43 +1,23 @@
-[gd_resource type="Theme" load_steps=9 format=3 uid="uid://yoxvktkljigt"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://yoxvktkljigt"]
 
 [ext_resource type="FontFile" uid="uid://b8me7q0cx2y8e" path="res://assets/fonts/terminal-grotesque.ttf" id="1_sdifh"]
-[ext_resource type="Texture2D" uid="uid://dhx3pe5vm2sqr" path="res://assets/drawables/9pr_dialog_light.png" id="2_u3nh1"]
+[ext_resource type="Texture2D" uid="uid://bgpl450e5j1ln" path="res://assets/pieces/btn_secondary.png" id="2_lqskn"]
+[ext_resource type="FontFile" uid="uid://p42yca6ye8pg" path="res://assets/fonts/fffforwa.ttf" id="3_y6337"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hdx1x"]
-texture = ExtResource("2_u3nh1")
-texture_margin_left = 32.0
-texture_margin_top = 32.0
-texture_margin_right = 32.0
-texture_margin_bottom = 32.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jt0mx"]
-texture = ExtResource("2_u3nh1")
-texture_margin_left = 32.0
-texture_margin_top = 32.0
-texture_margin_right = 32.0
-texture_margin_bottom = 32.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j5jwn"]
-texture = ExtResource("2_u3nh1")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
-modulate_color = Color(1, 0.580392, 1, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_smbfq"]
+texture = ExtResource("2_lqskn")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+modulate_color = Color(1, 0.505882, 0.411765, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6tymq"]
-texture = ExtResource("2_u3nh1")
-texture_margin_left = 32.0
-texture_margin_top = 32.0
-texture_margin_right = 32.0
-texture_margin_bottom = 32.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oguj2"]
-texture = ExtResource("2_u3nh1")
-texture_margin_left = 32.0
-texture_margin_top = 32.0
-texture_margin_right = 32.0
-texture_margin_bottom = 32.0
+texture = ExtResource("2_lqskn")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
 
 [sub_resource type="FontVariation" id="FontVariation_ny5m6"]
 base_font = ExtResource("1_sdifh")
@@ -46,8 +26,8 @@ spacing_space = 1
 spacing_bottom = 2
 
 [resource]
-default_font = ExtResource("1_sdifh")
-default_font_size = 18
+default_font = ExtResource("3_y6337")
+default_font_size = 12
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_disabled_color = Color(0, 0, 0, 1)
 Button/colors/font_focus_color = Color(0, 0, 0, 1)
@@ -64,13 +44,13 @@ Button/colors/icon_pressed_color = Color(0, 0, 0, 1)
 Button/constants/h_separation = 0
 Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
-Button/font_sizes/font_size = 20
-Button/fonts/font = ExtResource("1_sdifh")
-Button/styles/disabled = SubResource("StyleBoxTexture_hdx1x")
-Button/styles/focus = SubResource("StyleBoxTexture_jt0mx")
-Button/styles/hover = SubResource("StyleBoxTexture_j5jwn")
+Button/font_sizes/font_size = 12
+Button/fonts/font = ExtResource("3_y6337")
+Button/styles/disabled = null
+Button/styles/focus = null
+Button/styles/hover = SubResource("StyleBoxTexture_smbfq")
 Button/styles/normal = SubResource("StyleBoxTexture_6tymq")
-Button/styles/pressed = SubResource("StyleBoxTexture_oguj2")
+Button/styles/pressed = null
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -79,8 +59,8 @@ Label/constants/outline_size = 1
 Label/constants/shadow_offset_x = 0
 Label/constants/shadow_offset_y = 0
 Label/constants/shadow_outline_size = 0
-Label/font_sizes/font_size = 20
-Label/fonts/font = ExtResource("1_sdifh")
+Label/font_sizes/font_size = 12
+Label/fonts/font = ExtResource("3_y6337")
 Label/styles/normal = null
 RichTextLabel/colors/default_color = Color(1, 1, 1, 1)
 RichTextLabel/colors/font_outline_color = Color(1, 1, 1, 1)

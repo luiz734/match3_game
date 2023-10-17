@@ -3,9 +3,12 @@ class_name PieceRes
 
 enum PieceType {
     NONE,
-    PUMPKIN,
-    HEART,
+    BAT,
+    CANDLE,
     GHOST,
+    HAT,
+    PUMPKIN,
+    SPIDE_WEB,
 }
 
 @export var sprite: Texture2D
