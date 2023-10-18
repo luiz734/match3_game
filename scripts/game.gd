@@ -13,10 +13,14 @@ var _score = 0
 var _current_dialog: DialogContainer = null
 
 func _ready():
-    grid.next_match()
     Events.piece_scored.connect(func(x):
         _score += x
         label_score.text = str(_score))
+        
+    if not grid.is_node_ready():
+        await grid.ready
+    grid.next_match()
+    
     
 func on_dialog_finished(choice):
     pass

@@ -169,7 +169,7 @@ patch_margin_right = 8
 patch_margin_bottom = 8
 
 [node name="Grid" type="Node2D" parent="."]
-position = Vector2(28, 61)
+position = Vector2(28, 64)
 script = ExtResource("8_atby6")
 pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("9_6vvf3"), ExtResource("10_2r2ah"), ExtResource("11_ayy1k")])
 

@@ -26,14 +26,14 @@ func animate_score(pieces: Array):
             if _active_count == 0: animate_score_finished.emit()
         )
 
-func animate_position(pieces: Array, grid_size: int, spacement: int, sprite_size: int):
+func animate_position(pieces: Array, len_x: int, len_y: int, spacement: int, sprite_size: int):
     if _active_count != 0: return
     assert(not pieces.is_empty(), "At least one piece is required.")
     assert(_active_count == 0, "Other animation is playing.")
     for p in pieces:
         var t = get_tree().create_tween()
-        var p_row = floor(p.next_index / grid_size)
-        var p_col = p.next_index % grid_size
+        var p_row = floor(p.next_index / len_x)
+        var p_col = p.next_index % len_x
         var p_pos = Vector2(p_col * (sprite_size + spacement), p_row * (sprite_size + spacement))
         t.tween_property(p, "position", p_pos, POSITION_DURATION_SEC)
         _active_count += 1

@@ -1,6 +1,7 @@
 extends Node2D
 
-@export var grid_size = 6
+@export var grid_size_x = 6
+@export var grid_size_y = 8
 @export var spacement = 0
 @export var pieces_resources: Array[PieceRes] = []
 
@@ -21,7 +22,7 @@ func unlock_actions():
     action_locked = false
 
 var pieces: Array[Piece] = []
-@onready var match3_core = Match3Core.new(grid_size)
+var match3_core: Match3Core
 const PiecePrefab = preload("res://scenes/piece.tscn")
 
 func _ready():
@@ -35,8 +36,10 @@ func _ready():
     Events.connect("swap_requested", on_swap_requested)
 #    Events.connelesect("piece_removed_from_poll", on_piece_removed_from_poll)
 
-    for i in range(grid_size * grid_size):
+    for i in range(grid_size_x * grid_size_y):
         pieces.push_back(null)
+        
+    match3_core = Match3Core.new(grid_size_x, grid_size_y)
     
 func on_piece_index_changed(piece: Piece):
     return
@@ -56,7 +59,7 @@ func on_swap_requested(a, b) -> void:
     pieces[a.index] = b
     pieces[b.index] = a
     var both = [a, b]
-    pieces_tweener.animate_position(both, grid_size, spacement, SPRITE_SIZE)
+    pieces_tweener.animate_position(both, grid_size_x, grid_size_y, spacement, SPRITE_SIZE)
     await pieces_tweener.animate_position_finished 
 
     unlock_actions()
@@ -66,10 +69,10 @@ func on_swap_requested(a, b) -> void:
 func create_piece_as_child(index) -> Piece:
     var new_piece = PiecePrefab.instantiate()
     var rand_piece_res = pieces_resources.pick_random()
-    new_piece.init(rand_piece_res, grid_size)
+    new_piece.init(rand_piece_res, grid_size_x)
     # todo: create a single function for position
     
-    var p_col = (index % grid_size)
+    var p_col = (index % grid_size_x)
     var p_row = 0
     var p_pos = Vector2(p_col * (SPRITE_SIZE + spacement), p_row * (SPRITE_SIZE + spacement))
     new_piece.position = p_pos
@@ -82,14 +85,14 @@ func try_move_all_pieces_1_down() -> Array:
     # first row is dispenser
     # last row ignored
     var moved_pieces = []
-    var start = grid_size * (grid_size - 1) - 1
+    var start = grid_size_x * (grid_size_y - 1) - 1
     var end = -1
     var step = -1
     for i in range(start, end, step):
-        var row = floor(i / grid_size)
-        var col = i % grid_size
-        var index_bellow = (row + 1) * grid_size + col
-        assert(index_bellow >= 0 and index_bellow < grid_size * grid_size)
+        var row = floor(i / grid_size_x)
+        var col = i % grid_size_x
+        var index_bellow = (row + 1) * grid_size_x + col
+        assert(index_bellow >= 0 and index_bellow < grid_size_x * grid_size_y)
         if pieces[index_bellow] == null and pieces[i] != null:
             moved_pieces.push_back(pieces[i])
             pieces[i].next_index = index_bellow
@@ -99,7 +102,7 @@ func try_move_all_pieces_1_down() -> Array:
         
 func fill_dispenser() -> bool:
     var one_or_more_filled = false
-    for i in range(0, grid_size):
+    for i in range(0, grid_size_x):
         if pieces[i] == null:
             var p = create_piece_as_child(i)
             pieces[i] = p
@@ -131,14 +134,14 @@ func next_match():
             if dropped_pieces.is_empty():
                 break
             else:
-                pieces_tweener.animate_position(dropped_pieces, grid_size, spacement, SPRITE_SIZE)
+                pieces_tweener.animate_position(dropped_pieces, grid_size_x, grid_size_y, spacement, SPRITE_SIZE)
                 await pieces_tweener.animate_position_finished
                 print_debug("position animation finished")
  
         match3_core.reset_removed_from_poll()
-        var candidates = match3_core.get_candidate_matches_as_arrays(pieces, grid_size, cmp_func)
+        var candidates = match3_core.get_candidate_matches_as_arrays(pieces, cmp_func)
         
-        var next_match: Match3Core.MatchData = match3_core.get_most_valuable_match(candidates, grid_size)
+        var next_match: Match3Core.MatchData = match3_core.get_most_valuable_match(candidates)
         match3_core.remove_from_poll(next_match.indexes)
         
         require_update = not candidates.is_empty()
@@ -150,7 +153,7 @@ func next_match():
             print_debug("position score finished")
         
         
-        var indexes_removed_from_poll = match3_core.get_removed_from_poll_indexes(grid_size)
+        var indexes_removed_from_poll = match3_core.get_removed_from_poll_indexes()
         
         for i in indexes_removed_from_poll:
             pieces[i].queue_free()
@@ -170,10 +173,10 @@ func cmp_func(a: Piece, b: Piece) -> bool:
     return match_with
 
 func are_neighbors(a, b):
-    var col_a = a % grid_size
-    var col_b = b % grid_size
-    var row_a = floor(a / grid_size)
-    var row_b = floor(b / grid_size)
+    var col_a = a % grid_size_x
+    var col_b = b % grid_size_x
+    var row_a = floor(a / grid_size_x)
+    var row_b = floor(b / grid_size_x)
     
     var v_neighbor = (col_a == col_b) and (abs(row_a - row_b) == 1)
     var h_neighbor = (row_a == row_b) and (abs(col_a - col_b) == 1)
@@ -183,11 +186,11 @@ func are_neighbors(a, b):
 
 ## This method make changes INPLACE
 func smash_all_lines():        
-    for col in range(0, grid_size, 1):
-        var start = grid_size * (grid_size - 1) + col
-        var end = col - grid_size
-        var step = -grid_size
-        var smashed = match3_core.get_notnull_first(pieces, grid_size, start, end, step)
+    for col in range(0, grid_size_x, 1):
+        var start = grid_size_x * (grid_size_y - 1) + col
+        var end = col - grid_size_x
+        var step = -grid_size_x
+        var smashed = match3_core.get_notnull_first(pieces, start, end, step)
         
         var count = 0
         for i in range(start, end, step):
@@ -197,7 +200,7 @@ func smash_all_lines():
             count += 1
     
 func fill_null_spots():
-    for i in range(grid_size * grid_size):
+    for i in range(grid_size_x * grid_size_y):
         if pieces[i] == null:
             pieces[i] = create_piece_as_child(i)
         
