@@ -43,6 +43,13 @@ func on_piece_index_changed(piece: Piece):
     
     
 func on_swap_requested(a, b) -> void:
+    if action_locked:
+        return
+    if not are_neighbors(a.index, b.index):
+        return
+    if not (a._interactable and b._interactable):
+        return
+        
     lock_actions()
     a.next_index = b.index
     b.next_index = a.index
@@ -161,6 +168,18 @@ func cmp_func(a: Piece, b: Piece) -> bool:
         return x == a._piece_res.type
     )
     return match_with
+
+func are_neighbors(a, b):
+    var col_a = a % grid_size
+    var col_b = b % grid_size
+    var row_a = floor(a / grid_size)
+    var row_b = floor(b / grid_size)
+    
+    var v_neighbor = (col_a == col_b) and (abs(row_a - row_b) == 1)
+    var h_neighbor = (row_a == row_b) and (abs(col_a - col_b) == 1)
+    
+    return v_neighbor or h_neighbor
+    
 
 ## This method make changes INPLACE
 func smash_all_lines():        
