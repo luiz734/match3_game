@@ -1,0 +1,20 @@
+extends Node2D
+
+
+# Called when the node enters the scene tree for the first time.
+
+func init(score):
+    $ScoreLabel.text = str(score)
+    
+func _ready():
+    assert($ScoreLabel.text != "0")
+    var t = get_tree().create_tween()
+#    t.tween_property(self, "scale", Vector2(0, 0), 0.4)
+    t.tween_property(self, "modulate", Color(1, 1, 1, 0), 0.4)
+    await t.finished
+    self.queue_free()
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+    self.position.y -= 20 * delta

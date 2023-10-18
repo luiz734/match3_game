@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b6do74c8c254k"]
+[gd_scene load_steps=17 format=3 uid="uid://b6do74c8c254k"]
 
 [ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="1_g1dh2"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="2_3opcp"]
@@ -13,6 +13,8 @@
 [ext_resource type="Resource" uid="uid://y588thyyfkmx" path="res://resources/candle.tres" id="10_2r2ah"]
 [ext_resource type="Resource" uid="uid://k2jrlbrg028i" path="res://resources/ghost.tres" id="11_ayy1k"]
 [ext_resource type="Script" path="res://scripts/piece_group_tweener.gd" id="12_pi8eb"]
+[ext_resource type="Resource" uid="uid://c7ovlhbwxqf7g" path="res://resources/hat.tres" id="13_a1okc"]
+[ext_resource type="Resource" uid="uid://pcg0e03y3xgx" path="res://resources/pumpkin.tres" id="14_thf4j"]
 
 [sub_resource type="Theme" id="Theme_op0ii"]
 
@@ -175,7 +177,8 @@ patch_margin_bottom = 8
 [node name="Grid" type="Node2D" parent="CanvasGroup"]
 position = Vector2(28, 29)
 script = ExtResource("8_atby6")
-pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("9_6vvf3"), ExtResource("10_2r2ah"), ExtResource("11_ayy1k")])
+pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("9_6vvf3"), ExtResource("10_2r2ah"), ExtResource("11_ayy1k"), ExtResource("13_a1okc"), ExtResource("14_thf4j")])
+multipliers = [1, 2, 5, 5]
 
 [node name="PieceGroupTweener" type="Node2D" parent="CanvasGroup/Grid"]
 script = ExtResource("12_pi8eb")

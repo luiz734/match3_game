@@ -10,6 +10,6 @@ func _get_drag_data(at_position):
 
 func _drop_data(at_position, data):
     Events.swap_requested.emit(piece, data)
-    print("text dropped on piece_", piece.index, " from piece_", data.index)
+#    print("text dropped on piece_", piece.index, " from piece_", data.index)
         
 

@@ -4,6 +4,7 @@ extends Node2D
 @export var grid_size_y = 9
 @export var spacement = 0
 @export var pieces_resources: Array[PieceRes] = []
+@export var multipliers: Array[int] = []
 
 const SPRITE_SIZE = 32
 
@@ -14,7 +15,8 @@ const Match3Core = preload("res://scripts/standalone/match3_core.gd")
 var action_locked = false
 var require_update = true
 var rng = RandomNumberGenerator.new()
-
+var _last_match_type: Match3Core.MatchType
+var combo_count = 0
 
 func lock_actions():
     action_locked = true
@@ -30,7 +32,7 @@ func _ready():
     var seed: int = rng.randi()
     seed(2)
     print_debug("Seed:", seed) 
-    
+    assert(len(multipliers) == 4)
     assert(not pieces_resources.is_empty(), "Add at least 1 piece resource")
     Events.connect("piece_index_changed", on_piece_index_changed)
     Events.connect("swap_requested", on_swap_requested)
@@ -44,7 +46,15 @@ func _ready():
 func on_piece_index_changed(piece: Piece):
     return
     
-    
+func swap_pieces(a, b):
+    a.next_index = b.index
+    b.next_index = a.index
+    pieces[a.index] = b
+    pieces[b.index] = a
+    var both = [a, b]
+    pieces_tweener.animate_position(both, grid_size_x, grid_size_y, spacement, SPRITE_SIZE)
+    await pieces_tweener.animate_position_finished 
+
 func on_swap_requested(a, b) -> void:
     if action_locked:
         return
@@ -54,14 +64,12 @@ func on_swap_requested(a, b) -> void:
         return
         
     lock_actions()
-    a.next_index = b.index
-    b.next_index = a.index
-    pieces[a.index] = b
-    pieces[b.index] = a
-    var both = [a, b]
-    pieces_tweener.animate_position(both, grid_size_x, grid_size_y, spacement, SPRITE_SIZE)
-    await pieces_tweener.animate_position_finished 
-
+    await swap_pieces(a, b)
+    var candidates = match3_core.get_candidate_matches_as_arrays(pieces, cmp_func)
+    if candidates.is_empty():
+        await swap_pieces(a, b)
+        
+        
     unlock_actions()
     next_match()
     
@@ -127,7 +135,9 @@ func next_match():
     
     lock_actions()
     require_update = true
+    combo_count = -1
     while require_update:
+        combo_count += 1
         while true:
             fill_dispenser()
             var dropped_pieces = try_move_all_pieces_1_down()
@@ -136,7 +146,6 @@ func next_match():
             else:
                 pieces_tweener.animate_position(dropped_pieces, grid_size_x, grid_size_y, spacement, SPRITE_SIZE)
                 await pieces_tweener.animate_position_finished
-                print_debug("position animation finished")
  
         match3_core.reset_removed_from_poll()
         var candidates = match3_core.get_candidate_matches_as_arrays(pieces, cmp_func)
@@ -148,9 +157,12 @@ func next_match():
         
         var scored_pieces: Array = next_match.indexes.map(func(x): return pieces[x])
         if not scored_pieces.is_empty():
-            pieces_tweener.animate_score(scored_pieces)
+            _last_match_type = next_match.type
+            var multiplier = multipliers[4 - _last_match_type] # skip "NO_MATCH"
+            multiplier = multiplier + combo_count
+            print(_last_match_type)
+            pieces_tweener.animate_score(scored_pieces, multiplier)
             await pieces_tweener.animate_score_finished
-            print_debug("position score finished")
         
         
         var indexes_removed_from_poll = match3_core.get_removed_from_poll_indexes()

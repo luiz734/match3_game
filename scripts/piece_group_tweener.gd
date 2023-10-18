@@ -1,7 +1,8 @@
 extends Node
 class_name PieceGroupTweener
 
-const SCORE_DURATION_SEC = 0.2
+const ScoreLabelPrefab = preload("res://score_label.tscn")
+const SCORE_DURATION_SEC = 0.1
 const POSITION_DURATION_SEC = 0.2
 
 signal animate_score_finished
@@ -12,16 +13,20 @@ var _active_count = 0
 func any_animation_playing():
     return _active_count > 0
 
-func animate_score(pieces: Array):
+func animate_score(pieces: Array, multiplier):
     assert(not pieces.is_empty(), "At least one piece is required.")
     assert(_active_count == 0, "Other animation is playing.")
     for p in pieces:
         var t = get_tree().create_tween()
         t.tween_property(p, "scale", Vector2(0, 0), SCORE_DURATION_SEC)
         _active_count += 1
-        t.connect("finished", func(): 
-            await get_tree().create_timer(0.2).timeout
-            p.on_score()
+        t.connect("finished", func():
+            var score = p.on_score(multiplier)
+            var score_label = ScoreLabelPrefab.instantiate()
+            score_label.init(score)
+            score_label.global_position = p.global_position
+            get_tree().get_root().add_child(score_label)
+            await get_tree().create_timer(0.3).timeout
             _active_count -= 1
             if _active_count == 0: animate_score_finished.emit()
         )

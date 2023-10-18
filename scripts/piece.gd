@@ -34,6 +34,7 @@ func _ready():
     
     texture_rect.piece = self
 
-
-func on_score():
-    Events.piece_scored.emit(int(_piece_res.points))
+func on_score(multiplier):
+    var score = _piece_res.points * multiplier
+    Events.piece_scored.emit(int(score))
+    return score
