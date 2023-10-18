@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var grid_size_x = 6
-@export var grid_size_y = 8
+@export var grid_size_y = 9
 @export var spacement = 0
 @export var pieces_resources: Array[PieceRes] = []
 

@@ -4,7 +4,7 @@ extends Control
 @onready var show_dialog = $BottomBar2/UIMarginContainer/hbox/btn_Match
 @onready var swap_random = $BottomBar2/UIMarginContainer/hbox/btn_Swap
 @onready var label_score: Label = $TopBar/hbox/Score
-@onready var grid = $Grid
+@onready var grid = $CanvasGroup/Grid
 const DialogContainer = preload("res://scenes/dialog_container.tscn")
 
 var _score = 0
