@@ -6,6 +6,6 @@
 [resource]
 script = ExtResource("1_s1lu5")
 sprite = ExtResource("2_sxcw6")
-points = 0
+points = 100
 type = 1
 matches = Array[int]([1])

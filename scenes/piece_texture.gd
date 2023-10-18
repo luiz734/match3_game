@@ -1,6 +1,6 @@
 extends TextureRect
 
-var piece
+var piece: Piece
 
 func _can_drop_data(at_position, data):
     return true
@@ -10,4 +10,5 @@ func _get_drag_data(at_position):
 
 func _drop_data(at_position, data):
     print("text dropped on piece_", piece.index, " from piece_", data.index)
-    Events.swap_requested.emit(piece, data)
+    if piece._interactable:
+        Events.swap_requested.emit(piece, data)

@@ -29,6 +29,7 @@ stretch_mode = 2
 script = ExtResource("3_ygrjl")
 
 [node name="Index" type="Label" parent="."]
+visible = false
 offset_left = 14.0
 offset_top = -20.0
 offset_right = 32.0

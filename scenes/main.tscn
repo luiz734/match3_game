@@ -1,79 +1,34 @@
-[gd_scene load_steps=13 format=3 uid="uid://dvity0wyv68cy"]
+[gd_scene load_steps=5 format=3 uid="uid://dvity0wyv68cy"]
 
-[ext_resource type="Script" path="res://scripts/ui.gd" id="2_utmi7"]
-[ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="3_tbr7n"]
-[ext_resource type="Resource" uid="uid://brlyo0q8fvemj" path="res://resources/child_golbin_dialog.tres" id="4_aqn1s"]
-[ext_resource type="Script" path="res://scripts/ui_margin.gd" id="6_trphb"]
-[ext_resource type="Resource" uid="uid://cf7dox2gj2ehv" path="res://resources/golbin_dialog.tres" id="6_yd0qr"]
-[ext_resource type="Script" path="res://debug/actions.gd" id="7_aausm"]
-[ext_resource type="Script" path="res://scripts/grid.gd" id="8_5knni"]
-[ext_resource type="Resource" uid="uid://etwy2pef8thk" path="res://resources/bat.tres" id="10_rngty"]
-[ext_resource type="Resource" uid="uid://y588thyyfkmx" path="res://resources/candle.tres" id="11_6se0n"]
-[ext_resource type="Resource" uid="uid://k2jrlbrg028i" path="res://resources/ghost.tres" id="11_y07up"]
-[ext_resource type="Texture2D" uid="uid://c711s8kw0lhmb" path="res://assets/drawables/9pr_grid.png" id="12_1hv25"]
-[ext_resource type="Script" path="res://scripts/piece_group_tweener.gd" id="12_1v2yr"]
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_86r33"]
+[ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="2_kiy4y"]
+[ext_resource type="Script" path="res://scripts/ui_margin.gd" id="3_vyru7"]
+[ext_resource type="Theme" uid="uid://b20pecjb30omo" path="res://ui_secondary.tres" id="4_nandn"]
 
 [node name="main" type="Node2D"]
+script = ExtResource("1_86r33")
 
-[node name="UI" type="Control" parent="."]
+[node name="MainMenu" type="Control" parent="."]
 texture_filter = 1
 custom_minimum_size = Vector2(216, 384)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 216.0
 offset_bottom = 384.0
-theme = ExtResource("3_tbr7n")
-script = ExtResource("2_utmi7")
-dialogs = Array[Resource("res://resources/scripts/DialogRes.gd")]([ExtResource("6_yd0qr"), ExtResource("4_aqn1s")])
+theme = ExtResource("2_kiy4y")
 
-[node name="Background" type="ColorRect" parent="UI"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.0941176, 0.121569, 0.152941, 1)
-
-[node name="TopBar" type="ColorRect" parent="UI"]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-grow_horizontal = 2
-mouse_filter = 2
-color = Color(0.129412, 0.180392, 0.215686, 1)
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/TopBar"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="hbox" type="HBoxContainer" parent="UI/TopBar/MarginContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="UI/TopBar/MarginContainer/hbox"]
-layout_mode = 2
-text = "9999"
-
-[node name="BottomBar2" type="ColorRect" parent="UI"]
+[node name="BottomBar2" type="ColorRect" parent="MainMenu"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 mouse_filter = 2
 color = Color(0.129412, 0.180392, 0.215686, 1)
 
-[node name="UIMarginContainer" type="MarginContainer" parent="UI/BottomBar2"]
+[node name="UIMarginContainer" type="MarginContainer" parent="MainMenu/BottomBar2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -84,63 +39,20 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
-script = ExtResource("6_trphb")
+script = ExtResource("3_vyru7")
 
-[node name="hbox" type="HBoxContainer" parent="UI/BottomBar2/UIMarginContainer"]
+[node name="hbox" type="VBoxContainer" parent="MainMenu/BottomBar2/UIMarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="btn_Swap" type="Button" parent="UI/BottomBar2/UIMarginContainer/hbox"]
+[node name="btn_NewGame" type="Button" parent="MainMenu/BottomBar2/UIMarginContainer/hbox"]
 layout_mode = 2
-text = "Swap"
+text = "New Game"
 
-[node name="btn_Match" type="Button" parent="UI/BottomBar2/UIMarginContainer/hbox"]
+[node name="btn_Exit" type="Button" parent="MainMenu/BottomBar2/UIMarginContainer/hbox"]
 layout_mode = 2
-text = "Match"
+theme = ExtResource("4_nandn")
+text = "Exit"
 
-[node name="actions" type="VBoxContainer" parent="UI"]
-clip_contents = true
-custom_minimum_size = Vector2(500, 0)
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_left = 320.0
-offset_top = 36.0
-offset_right = 820.0
-offset_bottom = -95.0
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/separation = 2
-script = ExtResource("7_aausm")
-
-[node name="MarginContainer" type="MarginContainer" parent="UI"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 36
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 68
-
-[node name="NinePatchRect" type="NinePatchRect" parent="UI/MarginContainer"]
-layout_mode = 2
-texture = ExtResource("12_1hv25")
-patch_margin_left = 8
-patch_margin_top = 8
-patch_margin_right = 8
-patch_margin_bottom = 8
-
-[node name="Grid" type="Node2D" parent="UI"]
-position = Vector2(28, 61)
-script = ExtResource("8_5knni")
-pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("10_rngty"), ExtResource("11_6se0n"), ExtResource("11_y07up")])
-
-[node name="PieceGroupTweener" type="Node2D" parent="UI/Grid"]
-script = ExtResource("12_1v2yr")
-
-[connection signal="pressed" from="UI/BottomBar2/UIMarginContainer/hbox/btn_Swap" to="UI" method="_on_btn_swap_pressed"]
-[connection signal="pressed" from="UI/BottomBar2/UIMarginContainer/hbox/btn_Match" to="UI" method="_on_button_pressed"]
+[connection signal="pressed" from="MainMenu/BottomBar2/UIMarginContainer/hbox/btn_NewGame" to="." method="_on_btn_new_game_pressed"]
+[connection signal="pressed" from="MainMenu/BottomBar2/UIMarginContainer/hbox/btn_Exit" to="." method="_on_btn_exit_pressed"]

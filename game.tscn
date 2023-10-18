@@ -1,0 +1,180 @@
+[gd_scene load_steps=15 format=3 uid="uid://b6do74c8c254k"]
+
+[ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="1_g1dh2"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="2_3opcp"]
+[ext_resource type="Resource" uid="uid://cf7dox2gj2ehv" path="res://resources/golbin_dialog.tres" id="3_67xsa"]
+[ext_resource type="Resource" uid="uid://brlyo0q8fvemj" path="res://resources/child_golbin_dialog.tres" id="4_oxd60"]
+[ext_resource type="Script" path="res://scripts/ui_margin.gd" id="5_k7noc"]
+[ext_resource type="Texture2D" uid="uid://c34v7pk5uc0h7" path="res://assets/pieces/icon_pause.png" id="5_mhcpq"]
+[ext_resource type="Script" path="res://debug/actions.gd" id="6_2sxbd"]
+[ext_resource type="Texture2D" uid="uid://c711s8kw0lhmb" path="res://assets/drawables/9pr_grid.png" id="7_illqy"]
+[ext_resource type="Script" path="res://scripts/grid.gd" id="8_atby6"]
+[ext_resource type="Resource" uid="uid://etwy2pef8thk" path="res://resources/bat.tres" id="9_6vvf3"]
+[ext_resource type="Resource" uid="uid://y588thyyfkmx" path="res://resources/candle.tres" id="10_2r2ah"]
+[ext_resource type="Resource" uid="uid://k2jrlbrg028i" path="res://resources/ghost.tres" id="11_ayy1k"]
+[ext_resource type="Script" path="res://scripts/piece_group_tweener.gd" id="12_pi8eb"]
+
+[sub_resource type="Theme" id="Theme_op0ii"]
+
+[node name="Game" type="Control"]
+texture_filter = 1
+custom_minimum_size = Vector2(216, 384)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 216.0
+offset_bottom = 384.0
+script = ExtResource("2_3opcp")
+dialogs = Array[Resource("res://resources/scripts/DialogRes.gd")]([ExtResource("3_67xsa"), ExtResource("4_oxd60")])
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0941176, 0.121569, 0.152941, 1)
+
+[node name="TopBar" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0.129412, 0.180392, 0.215686, 1)
+
+[node name="hbox" type="HBoxContainer" parent="TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Score" type="Label" parent="TopBar/hbox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+theme = ExtResource("1_g1dh2")
+theme_override_font_sizes/font_size = 18
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 2
+justification_flags = 0
+
+[node name="Button" type="Button" parent="TopBar"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -12.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme = SubResource("Theme_op0ii")
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_disabled_color = Color(1, 1, 1, 1)
+icon = ExtResource("5_mhcpq")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="BottomBar2" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.129412, 0.180392, 0.215686, 1)
+
+[node name="UIMarginContainer" type="MarginContainer" parent="BottomBar2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("5_k7noc")
+
+[node name="hbox" type="HBoxContainer" parent="BottomBar2/UIMarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="btn_Swap" type="Button" parent="BottomBar2/UIMarginContainer/hbox"]
+visible = false
+layout_mode = 2
+text = "Swap"
+
+[node name="btn_Match" type="Button" parent="BottomBar2/UIMarginContainer/hbox"]
+visible = false
+layout_mode = 2
+text = "Match"
+
+[node name="actions" type="VBoxContainer" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 320.0
+offset_top = 36.0
+offset_right = 820.0
+offset_bottom = -95.0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+script = ExtResource("6_2sxbd")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 68
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
+layout_mode = 2
+texture = ExtResource("7_illqy")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Grid" type="Node2D" parent="."]
+position = Vector2(28, 61)
+script = ExtResource("8_atby6")
+pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("9_6vvf3"), ExtResource("10_2r2ah"), ExtResource("11_ayy1k")])
+
+[node name="PieceGroupTweener" type="Node2D" parent="Grid"]
+script = ExtResource("12_pi8eb")
+
+[connection signal="pressed" from="BottomBar2/UIMarginContainer/hbox/btn_Swap" to="." method="_on_btn_swap_pressed"]
+[connection signal="pressed" from="BottomBar2/UIMarginContainer/hbox/btn_Match" to="." method="_on_button_pressed"]

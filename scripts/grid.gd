@@ -59,7 +59,7 @@ func on_swap_requested(a, b) -> void:
 func create_piece_as_child(index) -> Piece:
     var new_piece = PiecePrefab.instantiate()
     var rand_piece_res = pieces_resources.pick_random()
-    new_piece.init(rand_piece_res)
+    new_piece.init(rand_piece_res, grid_size)
     # todo: create a single function for position
     
     var p_col = (index % grid_size)
@@ -141,6 +141,7 @@ func next_match():
             pieces_tweener.animate_score(scored_pieces)
             await pieces_tweener.animate_score_finished
             print_debug("position score finished")
+        
         
         var indexes_removed_from_poll = match3_core.get_removed_from_poll_indexes(grid_size)
         

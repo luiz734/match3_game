@@ -2,7 +2,7 @@ extends Node
 class_name PieceGroupTweener
 
 const SCORE_DURATION_SEC = 0.2
-const POSITION_DURATION_SEC = 0.1
+const POSITION_DURATION_SEC = 0.2
 
 signal animate_score_finished
 signal animate_position_finished
@@ -20,6 +20,8 @@ func animate_score(pieces: Array):
         t.tween_property(p, "scale", Vector2(0, 0), SCORE_DURATION_SEC)
         _active_count += 1
         t.connect("finished", func(): 
+            await get_tree().create_timer(0.2).timeout
+            p.on_score()
             _active_count -= 1
             if _active_count == 0: animate_score_finished.emit()
         )
