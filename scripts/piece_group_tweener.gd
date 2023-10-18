@@ -13,7 +13,7 @@ var _active_count = 0
 func any_animation_playing():
     return _active_count > 0
 
-func animate_score(pieces: Array, multiplier):
+func animate_score(pieces: Array, multiplier, combo):
     assert(not pieces.is_empty(), "At least one piece is required.")
     assert(_active_count == 0, "Other animation is playing.")
     for p in pieces:
@@ -23,7 +23,7 @@ func animate_score(pieces: Array, multiplier):
         t.connect("finished", func():
             var score = p.on_score(multiplier)
             var score_label = ScoreLabelPrefab.instantiate()
-            score_label.init(score)
+            score_label.init(score, combo)
             score_label.global_position = p.global_position
             get_tree().get_root().add_child(score_label)
             await get_tree().create_timer(0.3).timeout

@@ -30,7 +30,8 @@ const PiecePrefab = preload("res://scenes/piece.tscn")
 func _ready():
     rng.randomize()
     var seed: int = rng.randi()
-    seed(2)
+#    seed(2)
+    seed(seed)
     print_debug("Seed:", seed) 
     assert(len(multipliers) == 4)
     assert(not pieces_resources.is_empty(), "Add at least 1 piece resource")
@@ -161,7 +162,7 @@ func next_match():
             var multiplier = multipliers[4 - _last_match_type] # skip "NO_MATCH"
             multiplier = multiplier + combo_count
             print(_last_match_type)
-            pieces_tweener.animate_score(scored_pieces, multiplier)
+            pieces_tweener.animate_score(scored_pieces, multiplier, combo_count)
             await pieces_tweener.animate_score_finished
         
         
