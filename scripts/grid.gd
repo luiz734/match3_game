@@ -12,6 +12,9 @@ const Match3Core = preload("res://scripts/standalone/match3_core.gd")
 
 @onready var pieces_tweener: PieceGroupTweener = $PieceGroupTweener
 
+# can be 0, 1 or 2
+
+var current_diffuculty = 0
 var action_locked = false
 var require_update = true
 var rng = RandomNumberGenerator.new()
@@ -37,6 +40,9 @@ func _ready():
     Events.connect("piece_index_changed", on_piece_index_changed)
     Events.connect("swap_requested", on_swap_requested)
     Events.connect("shuffle_requested", on_shuffle_requested)
+    Events.connect("medium_dificulty_reached", func(): current_diffuculty += 1)
+    Events.connect("hard_dificulty_reached", func(): current_diffuculty += 1)
+    
 #    Events.connelesect("piece_removed_from_poll", on_piece_removed_from_poll)
 
     for i in range(grid_size_x * grid_size_y):
@@ -57,7 +63,36 @@ func swap_pieces(a, b):
     await pieces_tweener.animate_position_finished 
 
 func on_shuffle_requested() -> void:
+    lock_actions()
     print("shuffle")
+    var total_pieces = grid_size_x * grid_size_y
+    var to_swap: Array = []
+    
+    var shuffled_grid: Array = []
+    for i in range(total_pieces): shuffled_grid.push_back(i)
+    shuffled_grid.shuffle()
+
+    var start = 0 if total_pieces % 2 == 0 else 1
+    for i in range(start, total_pieces, 2):
+        var index_a = shuffled_grid[i]
+        var index_b = shuffled_grid[i+1]
+        
+        print("swap ", index_a, " ", index_b)
+        
+        var a = pieces[index_a]
+        var b = pieces[index_b]
+        to_swap.push_back(a)
+        to_swap.push_back(b)
+        
+        a.next_index = b.index
+        b.next_index = a.index
+        pieces[a.index] = b
+        pieces[b.index] = a
+    
+    pieces_tweener.animate_position(to_swap, grid_size_x, grid_size_y, spacement, SPRITE_SIZE)
+    await pieces_tweener.animate_position_finished 
+    unlock_actions()
+    next_match()
 
 func on_swap_requested(a, b) -> void:
     if action_locked:
@@ -80,7 +115,11 @@ func on_swap_requested(a, b) -> void:
     
 func create_piece_as_child(index) -> Piece:
     var new_piece = PiecePrefab.instantiate()
-    var rand_piece_res = pieces_resources.pick_random()
+    
+    var rand_piece_index = randi_range(0, 2 + current_diffuculty)
+    var rand_piece_res = pieces_resources[rand_piece_index]
+    
+    
     new_piece.init(rand_piece_res, grid_size_x)
     # todo: create a single function for position
     

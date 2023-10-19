@@ -26,6 +26,10 @@ signal combo_started()
 signal combo_changed(value)
 signal combo_ended(amount)
 
+
+signal medium_dificulty_reached
+signal hard_dificulty_reached
+
 signal shuffle_requested
 signal game_over(score)
 

@@ -9,7 +9,7 @@ func add_value(amount):
     value += amount
     
 func _physics_process(delta):
-    value -= (5 + Events.current_level) * delta
+    value -= (50 + Events.current_level) * delta
 
 
 func _on_value_changed(value):

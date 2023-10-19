@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=3 uid="uid://consjwmrrrqyp"]
+
+[ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="1_5ky8b"]
+[ext_resource type="Script" path="res://scenes/game_over.gd" id="2_lafdu"]
+[ext_resource type="Script" path="res://scripts/ui_margin.gd" id="3_kubtc"]
+
+[node name="GameOver" type="Control"]
+texture_filter = 1
+custom_minimum_size = Vector2(216, 384)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 216.0
+offset_bottom = 384.0
+theme = ExtResource("1_5ky8b")
+script = ExtResource("2_lafdu")
+
+[node name="BottomBar2" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.129412, 0.180392, 0.215686, 1)
+
+[node name="UIMarginContainer" type="MarginContainer" parent="BottomBar2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+script = ExtResource("3_kubtc")
+margin_width = 2
+
+[node name="Label" type="Label" parent="BottomBar2/UIMarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 25
+text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="BottomBar2/UIMarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Main Menu"
+
+[node name="hbox" type="VBoxContainer" parent="BottomBar2/UIMarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="Score" type="Label" parent="BottomBar2/UIMarginContainer/hbox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "-1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="BottomBar2/UIMarginContainer/Button" to="." method="_on_button_pressed"]
