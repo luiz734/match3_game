@@ -3,7 +3,7 @@ class_name PieceGroupTweener
 
 const ScoreLabelPrefab = preload("res://score_label.tscn")
 const SCORE_DURATION_SEC = 0.1
-const POSITION_DURATION_SEC = 0.2
+const POSITION_DURATION_SEC = 0.1
 
 signal animate_score_finished
 signal animate_position_finished

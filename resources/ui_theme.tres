@@ -1,10 +1,18 @@
-[gd_resource type="Theme" load_steps=9 format=3 uid="uid://yoxvktkljigt"]
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://yoxvktkljigt"]
 
 [ext_resource type="FontFile" uid="uid://b8me7q0cx2y8e" path="res://assets/fonts/terminal-grotesque.ttf" id="1_sdifh"]
+[ext_resource type="Texture2D" uid="uid://4f367og0edh0" path="res://assets/pieces/btn_primary.png" id="2_jmntb"]
 [ext_resource type="Texture2D" uid="uid://bgpl450e5j1ln" path="res://assets/pieces/btn_secondary.png" id="2_lqskn"]
 [ext_resource type="FontFile" uid="uid://p42yca6ye8pg" path="res://assets/fonts/fffforwa.ttf" id="3_y6337"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b5osk"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jqe7y"]
+texture = ExtResource("2_jmntb")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wone7"]
 texture = ExtResource("2_lqskn")
 texture_margin_left = 12.0
 texture_margin_top = 12.0
@@ -26,7 +34,7 @@ texture_margin_top = 12.0
 texture_margin_right = 12.0
 texture_margin_bottom = 12.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fjrvj"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8y0tw"]
 texture = ExtResource("2_lqskn")
 texture_margin_left = 12.0
 texture_margin_top = 12.0
@@ -60,11 +68,11 @@ Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
 Button/font_sizes/font_size = 12
 Button/fonts/font = ExtResource("3_y6337")
-Button/styles/disabled = null
-Button/styles/focus = SubResource("StyleBoxTexture_b5osk")
+Button/styles/disabled = SubResource("StyleBoxTexture_jqe7y")
+Button/styles/focus = SubResource("StyleBoxTexture_wone7")
 Button/styles/hover = SubResource("StyleBoxTexture_mwa7j")
 Button/styles/normal = SubResource("StyleBoxTexture_6tymq")
-Button/styles/pressed = SubResource("StyleBoxTexture_fjrvj")
+Button/styles/pressed = SubResource("StyleBoxTexture_8y0tw")
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/colors/font_shadow_color = Color(0, 0, 0, 1)

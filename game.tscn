@@ -1,20 +1,26 @@
-[gd_scene load_steps=17 format=3 uid="uid://b6do74c8c254k"]
+[gd_scene load_steps=18 format=3 uid="uid://b6do74c8c254k"]
 
 [ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="1_g1dh2"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="2_3opcp"]
-[ext_resource type="Resource" uid="uid://cf7dox2gj2ehv" path="res://resources/golbin_dialog.tres" id="3_67xsa"]
-[ext_resource type="Resource" uid="uid://brlyo0q8fvemj" path="res://resources/child_golbin_dialog.tres" id="4_oxd60"]
-[ext_resource type="Script" path="res://scripts/ui_margin.gd" id="5_k7noc"]
+[ext_resource type="Script" path="res://score_manager.gd" id="4_61cwe"]
+[ext_resource type="Script" path="res://score.gd" id="4_qvgx8"]
 [ext_resource type="Texture2D" uid="uid://c34v7pk5uc0h7" path="res://assets/pieces/icon_pause.png" id="5_mhcpq"]
+[ext_resource type="Script" path="res://shuffles.gd" id="5_nxdj1"]
+[ext_resource type="Script" path="res://progress_bar.gd" id="5_qoynr"]
 [ext_resource type="Script" path="res://debug/actions.gd" id="6_2sxbd"]
 [ext_resource type="Texture2D" uid="uid://c711s8kw0lhmb" path="res://assets/drawables/9pr_grid.png" id="7_illqy"]
 [ext_resource type="Script" path="res://scripts/grid.gd" id="8_atby6"]
 [ext_resource type="Resource" uid="uid://etwy2pef8thk" path="res://resources/bat.tres" id="9_6vvf3"]
+[ext_resource type="Script" path="res://button_shuffle.gd" id="9_yullx"]
 [ext_resource type="Resource" uid="uid://y588thyyfkmx" path="res://resources/candle.tres" id="10_2r2ah"]
 [ext_resource type="Resource" uid="uid://k2jrlbrg028i" path="res://resources/ghost.tres" id="11_ayy1k"]
 [ext_resource type="Script" path="res://scripts/piece_group_tweener.gd" id="12_pi8eb"]
-[ext_resource type="Resource" uid="uid://c7ovlhbwxqf7g" path="res://resources/hat.tres" id="13_a1okc"]
-[ext_resource type="Resource" uid="uid://pcg0e03y3xgx" path="res://resources/pumpkin.tres" id="14_thf4j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ff3w3"]
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
 
 [sub_resource type="Theme" id="Theme_op0ii"]
 
@@ -26,7 +32,13 @@ anchors_preset = 0
 offset_right = 216.0
 offset_bottom = 384.0
 script = ExtResource("2_3opcp")
-dialogs = Array[Resource("res://resources/scripts/DialogRes.gd")]([ExtResource("3_67xsa"), ExtResource("4_oxd60")])
+
+[node name="ScoreManager" type="Node2D" parent="." node_paths=PackedStringArray("progress", "level", "button", "score")]
+script = ExtResource("4_61cwe")
+progress = NodePath("../HBoxContainer/TopBar/hbox/MarginContainer/ProgressBar")
+level = NodePath("../HBoxContainer/TopBar/hbox/MarginContainer/Control/Level")
+button = NodePath("../HBoxContainer/BottomBar2/UIMarginContainer/hbox/btn_Shuffle")
+score = NodePath("../HBoxContainer/TopBar/hbox/Score")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -38,17 +50,22 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.0941176, 0.121569, 0.152941, 1)
 
-[node name="TopBar" type="ColorRect" parent="."]
-z_index = 1
-custom_minimum_size = Vector2(0, 32)
+[node name="HBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 15
 anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="ColorRect" parent="HBoxContainer"]
+z_index = 1
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
 mouse_filter = 2
 color = Color(0.129412, 0.180392, 0.215686, 1)
 
-[node name="hbox" type="HBoxContainer" parent="TopBar"]
+[node name="hbox" type="VBoxContainer" parent="HBoxContainer/TopBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -57,7 +74,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Score" type="Label" parent="TopBar/hbox"]
+[node name="Score" type="Label" parent="HBoxContainer/TopBar/hbox"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 1
@@ -68,8 +85,39 @@ text = "0
 horizontal_alignment = 1
 vertical_alignment = 2
 justification_flags = 0
+script = ExtResource("4_qvgx8")
 
-[node name="Button" type="Button" parent="TopBar"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/TopBar/hbox"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 20
+
+[node name="Control" type="Control" parent="HBoxContainer/TopBar/hbox/MarginContainer"]
+layout_mode = 2
+
+[node name="Level" type="Label" parent="HBoxContainer/TopBar/hbox/MarginContainer/Control"]
+z_index = 1
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+offset_left = 169.0
+offset_top = -12.0
+offset_right = 195.0
+offset_bottom = 14.0
+size_flags_horizontal = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_ff3w3")
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("5_nxdj1")
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/TopBar/hbox/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+show_percentage = false
+script = ExtResource("5_qoynr")
+
+[node name="Button" type="Button" parent="HBoxContainer/TopBar"]
 visible = false
 layout_mode = 1
 anchors_preset = 6
@@ -96,19 +144,29 @@ flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="BottomBar2" type="ColorRect" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+z_index = 2
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("7_illqy")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="BottomBar2" type="ColorRect" parent="HBoxContainer"]
 custom_minimum_size = Vector2(0, 64)
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 0
+layout_mode = 2
 mouse_filter = 2
 color = Color(0.129412, 0.180392, 0.215686, 1)
 
-[node name="UIMarginContainer" type="MarginContainer" parent="BottomBar2"]
+[node name="UIMarginContainer" type="MarginContainer" parent="HBoxContainer/BottomBar2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -119,23 +177,20 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
-script = ExtResource("5_k7noc")
 
-[node name="hbox" type="HBoxContainer" parent="BottomBar2/UIMarginContainer"]
+[node name="hbox" type="HBoxContainer" parent="HBoxContainer/BottomBar2/UIMarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="btn_Swap" type="Button" parent="BottomBar2/UIMarginContainer/hbox"]
-visible = false
+[node name="btn_Shuffle" type="Button" parent="HBoxContainer/BottomBar2/UIMarginContainer/hbox"]
 layout_mode = 2
-text = "Swap"
-
-[node name="btn_Match" type="Button" parent="BottomBar2/UIMarginContainer/hbox"]
-visible = false
-layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_g1dh2")
 text = "Match"
+script = ExtResource("9_yullx")
 
 [node name="actions" type="VBoxContainer" parent="."]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 1
@@ -150,35 +205,13 @@ mouse_filter = 2
 theme_override_constants/separation = 2
 script = ExtResource("6_2sxbd")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-z_index = 2
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 36
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 68
-
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
-layout_mode = 2
-texture = ExtResource("7_illqy")
-patch_margin_left = 8
-patch_margin_top = 8
-patch_margin_right = 8
-patch_margin_bottom = 8
-
 [node name="CanvasGroup" type="CanvasGroup" parent="."]
 
 [node name="Grid" type="Node2D" parent="CanvasGroup"]
-position = Vector2(28, 29)
+position = Vector2(28, 61)
 script = ExtResource("8_atby6")
-pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("9_6vvf3"), ExtResource("10_2r2ah"), ExtResource("11_ayy1k"), ExtResource("13_a1okc"), ExtResource("14_thf4j")])
-multipliers = [1, 2, 5, 5]
+pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("9_6vvf3"), ExtResource("10_2r2ah"), ExtResource("11_ayy1k")])
+multipliers = Array[int]([1, 2, 5, 5])
 
 [node name="PieceGroupTweener" type="Node2D" parent="CanvasGroup/Grid"]
 script = ExtResource("12_pi8eb")
@@ -191,11 +224,19 @@ anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -160.0
-offset_bottom = -150.0
+offset_top = -129.0
+offset_bottom = -117.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0941176, 0.121569, 0.152941, 1)
 
-[connection signal="pressed" from="BottomBar2/UIMarginContainer/hbox/btn_Swap" to="." method="_on_btn_swap_pressed"]
-[connection signal="pressed" from="BottomBar2/UIMarginContainer/hbox/btn_Match" to="." method="_on_button_pressed"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 0
+
+[connection signal="value_changed" from="HBoxContainer/TopBar/hbox/MarginContainer/ProgressBar" to="HBoxContainer/TopBar/hbox/MarginContainer/ProgressBar" method="_on_value_changed"]
+[connection signal="focus_entered" from="HBoxContainer/BottomBar2/UIMarginContainer/hbox/btn_Shuffle" to="HBoxContainer/BottomBar2/UIMarginContainer/hbox/btn_Shuffle" method="_on_focus_entered"]
+[connection signal="pressed" from="HBoxContainer/BottomBar2/UIMarginContainer/hbox/btn_Shuffle" to="ScoreManager" method="_on_btn_shuffle_pressed"]

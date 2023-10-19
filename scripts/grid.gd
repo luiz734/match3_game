@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var grid_size_x = 6
-@export var grid_size_y = 9
+@export var grid_size_y = 8
 @export var spacement = 0
 @export var pieces_resources: Array[PieceRes] = []
 @export var multipliers: Array[int] = []
@@ -16,13 +16,12 @@ var action_locked = false
 var require_update = true
 var rng = RandomNumberGenerator.new()
 var _last_match_type: Match3Core.MatchType
-var combo_count = 0
 
 func lock_actions():
     action_locked = true
 func unlock_actions():
     action_locked = false
-
+var _combo_count = 0
 var pieces: Array[Piece] = []
 var match3_core: Match3Core
 const PiecePrefab = preload("res://scenes/piece.tscn")
@@ -30,13 +29,14 @@ const PiecePrefab = preload("res://scenes/piece.tscn")
 func _ready():
     rng.randomize()
     var seed: int = rng.randi()
-#    seed(2)
-    seed(seed)
+#    seed(seed)
+    seed(2)
     print_debug("Seed:", seed) 
     assert(len(multipliers) == 4)
     assert(not pieces_resources.is_empty(), "Add at least 1 piece resource")
     Events.connect("piece_index_changed", on_piece_index_changed)
     Events.connect("swap_requested", on_swap_requested)
+    Events.connect("shuffle_requested", on_shuffle_requested)
 #    Events.connelesect("piece_removed_from_poll", on_piece_removed_from_poll)
 
     for i in range(grid_size_x * grid_size_y):
@@ -55,6 +55,9 @@ func swap_pieces(a, b):
     var both = [a, b]
     pieces_tweener.animate_position(both, grid_size_x, grid_size_y, spacement, SPRITE_SIZE)
     await pieces_tweener.animate_position_finished 
+
+func on_shuffle_requested() -> void:
+    print("shuffle")
 
 func on_swap_requested(a, b) -> void:
     if action_locked:
@@ -136,9 +139,13 @@ func next_match():
     
     lock_actions()
     require_update = true
-    combo_count = -1
+    _combo_count = -1
     while require_update:
-        combo_count += 1
+        _combo_count += 1
+        Events.combo_changed.emit(_combo_count)
+        if _combo_count == 1:
+            Events.combo_started.emit()
+            
         while true:
             fill_dispenser()
             var dropped_pieces = try_move_all_pieces_1_down()
@@ -160,9 +167,8 @@ func next_match():
         if not scored_pieces.is_empty():
             _last_match_type = next_match.type
             var multiplier = multipliers[4 - _last_match_type] # skip "NO_MATCH"
-            multiplier = multiplier + combo_count
-            print(_last_match_type)
-            pieces_tweener.animate_score(scored_pieces, multiplier, combo_count)
+            multiplier = multiplier + _combo_count
+            pieces_tweener.animate_score(scored_pieces, multiplier, _combo_count)
             await pieces_tweener.animate_score_finished
         
         
@@ -173,6 +179,7 @@ func next_match():
             pieces[i] = null
         
     unlock_actions()
+    Events.combo_ended.emit(_combo_count)
     
     __debug_match_call_count -= 1
         
