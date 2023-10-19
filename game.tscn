@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b6do74c8c254k"]
+[gd_scene load_steps=21 format=3 uid="uid://b6do74c8c254k"]
 
 [ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="1_g1dh2"]
 [ext_resource type="Script" path="res://scripts/game.gd" id="2_3opcp"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://debug/actions.gd" id="6_2sxbd"]
 [ext_resource type="Texture2D" uid="uid://c711s8kw0lhmb" path="res://assets/drawables/9pr_grid.png" id="7_illqy"]
 [ext_resource type="Script" path="res://scripts/grid.gd" id="8_atby6"]
+[ext_resource type="FontFile" uid="uid://p42yca6ye8pg" path="res://assets/fonts/fffforwa.ttf" id="9_6tya1"]
 [ext_resource type="Resource" uid="uid://etwy2pef8thk" path="res://resources/bat.tres" id="9_6vvf3"]
 [ext_resource type="Script" path="res://button_shuffle.gd" id="9_yullx"]
 [ext_resource type="Resource" uid="uid://y588thyyfkmx" path="res://resources/candle.tres" id="10_2r2ah"]
@@ -19,10 +20,10 @@
 [ext_resource type="Resource" uid="uid://pcg0e03y3xgx" path="res://resources/pumpkin.tres" id="16_pbcsw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ff3w3"]
-corner_radius_top_left = 13
-corner_radius_top_right = 13
-corner_radius_bottom_right = 13
-corner_radius_bottom_left = 13
+bg_color = Color(0.894118, 0.490196, 0.294118, 1)
+border_width_bottom = 2
+border_color = Color(0.894118, 0.490196, 0.294118, 1)
+anti_aliasing = false
 
 [sub_resource type="Theme" id="Theme_op0ii"]
 
@@ -38,9 +39,9 @@ script = ExtResource("2_3opcp")
 [node name="ScoreManager" type="Node2D" parent="." node_paths=PackedStringArray("progress", "level", "button", "score")]
 script = ExtResource("4_61cwe")
 progress = NodePath("../HBoxContainer/TopBar/hbox/MarginContainer/ProgressBar")
-level = NodePath("../HBoxContainer/TopBar/hbox/MarginContainer/Control/Level")
+level = NodePath("../HBoxContainer/TopBar/hbox/HBoxContainer/Level")
 button = NodePath("../HBoxContainer/BottomBar2/UIMarginContainer/hbox/btn_Shuffle")
-score = NodePath("../HBoxContainer/TopBar/hbox/Score")
+score = NodePath("../HBoxContainer/TopBar/hbox/HBoxContainer/Score")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -76,9 +77,14 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Score" type="Label" parent="HBoxContainer/TopBar/hbox"]
+[node name="HBoxContainer" type="MarginContainer" parent="HBoxContainer/TopBar/hbox"]
 layout_mode = 2
-size_flags_horizontal = 4
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Score" type="Label" parent="HBoxContainer/TopBar/hbox/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 1
 theme = ExtResource("1_g1dh2")
 theme_override_font_sizes/font_size = 18
@@ -89,6 +95,19 @@ vertical_alignment = 2
 justification_flags = 0
 script = ExtResource("4_qvgx8")
 
+[node name="Level" type="Label" parent="HBoxContainer/TopBar/hbox/HBoxContainer"]
+z_index = 1
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("9_6tya1")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_ff3w3")
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 2
+script = ExtResource("5_nxdj1")
+
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/TopBar/hbox"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
@@ -97,26 +116,11 @@ theme_override_constants/margin_right = 20
 [node name="Control" type="Control" parent="HBoxContainer/TopBar/hbox/MarginContainer"]
 layout_mode = 2
 
-[node name="Level" type="Label" parent="HBoxContainer/TopBar/hbox/MarginContainer/Control"]
-z_index = 1
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-offset_left = 169.0
-offset_top = -12.0
-offset_right = 195.0
-offset_bottom = 14.0
-size_flags_horizontal = 8
-theme_override_styles/normal = SubResource("StyleBoxFlat_ff3w3")
-text = "1"
-horizontal_alignment = 1
-vertical_alignment = 1
-script = ExtResource("5_nxdj1")
-
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/TopBar/hbox/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_g1dh2")
 value = 50.0
-show_percentage = false
 script = ExtResource("5_qoynr")
 
 [node name="Button" type="Button" parent="HBoxContainer/TopBar"]

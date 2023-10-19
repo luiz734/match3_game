@@ -22,8 +22,11 @@ var _last_match_type: Match3Core.MatchType
 
 func lock_actions():
     action_locked = true
+    Events.input_locket = true
 func unlock_actions():
     action_locked = false
+    Events.input_locket = false
+    
 var _combo_count = 0
 var pieces: Array[Piece] = []
 var match3_core: Match3Core
@@ -63,6 +66,9 @@ func swap_pieces(a, b):
     await pieces_tweener.animate_position_finished 
 
 func on_shuffle_requested() -> void:
+    assert(not action_locked)
+    
+    Events.current_level -= 1
     lock_actions()
     print("shuffle")
     var total_pieces = grid_size_x * grid_size_y

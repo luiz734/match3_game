@@ -1,9 +1,10 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://yoxvktkljigt"]
+[gd_resource type="Theme" load_steps=14 format=3 uid="uid://yoxvktkljigt"]
 
 [ext_resource type="FontFile" uid="uid://b8me7q0cx2y8e" path="res://assets/fonts/terminal-grotesque.ttf" id="1_sdifh"]
 [ext_resource type="Texture2D" uid="uid://4f367og0edh0" path="res://assets/pieces/btn_primary.png" id="2_jmntb"]
 [ext_resource type="Texture2D" uid="uid://bgpl450e5j1ln" path="res://assets/pieces/btn_secondary.png" id="2_lqskn"]
 [ext_resource type="FontFile" uid="uid://p42yca6ye8pg" path="res://assets/fonts/fffforwa.ttf" id="3_y6337"]
+[ext_resource type="Texture2D" uid="uid://vn6mp3i2el56" path="res://assets/pieces/progress.png" id="4_w6vpp"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jqe7y"]
 texture = ExtResource("2_jmntb")
@@ -40,6 +41,13 @@ texture_margin_left = 12.0
 texture_margin_top = 12.0
 texture_margin_right = 12.0
 texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_u7ma5"]
+texture = ExtResource("4_w6vpp")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fr516"]
+texture = ExtResource("4_w6vpp")
+modulate_color = Color(0.894118, 0.490196, 0.294118, 1)
 
 [sub_resource type="FontVariation" id="FontVariation_ny5m6"]
 base_font = ExtResource("1_sdifh")
@@ -84,6 +92,14 @@ Label/constants/shadow_outline_size = 0
 Label/font_sizes/font_size = 12
 Label/fonts/font = ExtResource("3_y6337")
 Label/styles/normal = null
+ProgressBar/colors/font_color = Color(0, 0, 0, 0)
+ProgressBar/colors/font_outline_color = Color(0, 0, 0, 1)
+ProgressBar/colors/font_shadow_color = Color(0, 0, 0, 1)
+ProgressBar/constants/outline_size = 0
+ProgressBar/font_sizes/font_size = 12
+ProgressBar/fonts/font = ExtResource("3_y6337")
+ProgressBar/styles/background = SubResource("StyleBoxTexture_u7ma5")
+ProgressBar/styles/fill = SubResource("StyleBoxTexture_fr516")
 RichTextLabel/colors/default_color = Color(1, 1, 1, 1)
 RichTextLabel/colors/font_outline_color = Color(1, 1, 1, 1)
 RichTextLabel/colors/font_selected_color = Color(0, 0, 0, 1)

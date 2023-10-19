@@ -56,6 +56,8 @@ func on_progess_reached_zero():
     lose_level()
 
 func _on_btn_shuffle_pressed():
+    if Events.input_locket:
+        return
     lose_level()
     Events.shuffle_requested.emit()
     
