@@ -1,6 +1,5 @@
 extends Node2D
 
-
 const UiGamePrefab = preload("res://game.tscn")
 const UiGameOverPrefab = preload("res://game_over.tscn")
 var ui_game = null

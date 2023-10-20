@@ -19,14 +19,14 @@ func _ready():
     progress.reached_zero.connect(self.on_progess_reached_zero)
 
 func on_combo_started():
-    print("combo started")
+#    print("combo started")
     _combo_sum = 0
 
 func on_combo_changed(value):
     _combo_length = value
     
 func on_combo_ended(length):
-    print("combo ended")
+#    print("combo ended")
     _can_gain_level = true
     
 func on_piece_scored(amount):
@@ -36,20 +36,20 @@ func on_piece_scored(amount):
     if progress.value >= 99:
         progress.value = 5
         Events.current_level += 1
-        button.disabled = Events.current_level < 1
-        level.gain_level()
+        level.set_level(Events.current_level)
         score.add_score(200)
         
+    button.disabled = Events.current_level <= 0
         
-    progress.add_value(amount * (0.2 + 0.8 / Events.current_level))
+    progress.add_value(amount * (0.1 + 0.9 / (max(0, Events.current_level)) + 1))
 
 func lose_level():
     Events.current_level -= 1
-    button.disabled = Events.current_level < 1
     if Events.current_level == -1:
         print("Game Over")
         Events.game_over.emit(int(score.text))
-    level.lose_level()
+    level.set_level(Events.current_level)
+    button.disabled = Events.current_level <= 0
 
 func on_progess_reached_zero():
     progress.change_value_to(100)

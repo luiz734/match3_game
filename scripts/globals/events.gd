@@ -34,4 +34,6 @@ signal shuffle_requested
 signal game_over(score)
 
 var current_level = 1
+var current_score: int = 0
+        
 var input_locket = false

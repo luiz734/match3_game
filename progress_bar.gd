@@ -9,7 +9,9 @@ func add_value(amount):
     value += amount
     
 func _physics_process(delta):
-    value -= (6 + Events.current_level) * delta
+#    var multiplier = (floor(Events.current_score) + Events.current_level) * 0.1
+#    print(Events.current_score / 1000)
+    value -= 15 * delta
 
 
 func _on_value_changed(value):

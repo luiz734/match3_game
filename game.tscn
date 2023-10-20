@@ -192,7 +192,7 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_g1dh2")
-text = "Match"
+text = "Shuffle"
 script = ExtResource("9_yullx")
 
 [node name="actions" type="VBoxContainer" parent="."]

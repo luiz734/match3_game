@@ -37,6 +37,7 @@ func _ready():
     var seed: int = rng.randi()
 #    seed(seed)
     seed(2)
+    Events.current_score = 0
     print_debug("Seed:", seed) 
     assert(len(multipliers) == 4)
     assert(not pieces_resources.is_empty(), "Add at least 1 piece resource")
@@ -70,7 +71,6 @@ func on_shuffle_requested() -> void:
     
     Events.current_level -= 1
     lock_actions()
-    print("shuffle")
     var total_pieces = grid_size_x * grid_size_y
     var to_swap: Array = []
     
@@ -83,7 +83,7 @@ func on_shuffle_requested() -> void:
         var index_a = shuffled_grid[i]
         var index_b = shuffled_grid[i+1]
         
-        print("swap ", index_a, " ", index_b)
+#        print("swap ", index_a, " ", index_b)
         
         var a = pieces[index_a]
         var b = pieces[index_b]
@@ -225,6 +225,9 @@ func next_match():
         
     unlock_actions()
     Events.combo_ended.emit(_combo_count)
+    if Events.current_level < 0:
+        Events.game_over.emit(Events.current_score)
+   
     
     __debug_match_call_count -= 1
         

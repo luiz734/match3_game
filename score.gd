@@ -1,7 +1,7 @@
 extends Label
 
-const MEDIUM_DIFFICULTY_TRESHHOLD = 1000
-const HARD_DIFFICULTY_TRESHHOLD = 5000
+const MEDIUM_DIFFICULTY_TRESHHOLD = 2000
+const HARD_DIFFICULTY_TRESHHOLD = 7000
 
 var _done_medium = false
 var _done_hard = false
