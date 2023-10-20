@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://kb7l5f04hxbk"]
 
-[ext_resource type="Texture2D" uid="uid://ccj7f0nc866kh" path="res://assets/drawables/empty.png" id="1_pemf4"]
 [ext_resource type="Script" path="res://scripts/piece.gd" id="2_hwyn3"]
-[ext_resource type="Script" path="res://scenes/piece_texture.gd" id="3_ygrjl"]
+[ext_resource type="Texture2D" uid="uid://ccj7f0nc866kh" path="res://assets/drawables/empty.png" id="2_v3wnf"]
+[ext_resource type="Script" path="res://scripts/piece_texture.gd" id="3_k0mmm"]
 
 [node name="Piece" type="Node2D"]
 script = ExtResource("2_hwyn3")
@@ -24,9 +24,9 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 0
 mouse_default_cursor_shape = 2
-texture = ExtResource("1_pemf4")
+texture = ExtResource("2_v3wnf")
 stretch_mode = 2
-script = ExtResource("3_ygrjl")
+script = ExtResource("3_k0mmm")
 
 [node name="Index" type="Label" parent="."]
 visible = false

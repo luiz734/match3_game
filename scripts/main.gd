@@ -1,7 +1,7 @@
 extends Node2D
 
-const UiGamePrefab = preload("res://game.tscn")
-const UiGameOverPrefab = preload("res://game_over.tscn")
+const UiGamePrefab = preload("res://scenes/game.tscn")
+const UiGameOverPrefab = preload("res://scenes/game_over.tscn")
 var ui_game = null
 var ui_game_over = null
 @onready var ui_menu = $MainMenu
@@ -26,10 +26,10 @@ func _on_btn_exit_pressed():
 
 func _input(event):
     if event.is_action_pressed("GoBack"):
-#        if ui_game:
-#            ui_game.queue_free()
-#            ui_game = null
-        if ui_game:
+        if ui_game_over:
+            ui_game_over.queue_free()
+            ui_game_over = null
+        elif ui_game:
             ui_game.queue_free()
             ui_game = null
         else:

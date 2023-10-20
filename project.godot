@@ -27,10 +27,6 @@ window/size/viewport_height=384
 window/stretch/mode="canvas_items"
 window/handheld/orientation=1
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
-
 [input]
 
 confirm={

@@ -1,12 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dvity0wyv68cy"]
+[gd_scene load_steps=4 format=3 uid="uid://dvity0wyv68cy"]
 
-[ext_resource type="Script" path="res://scenes/main.gd" id="1_86r33"]
-[ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="2_kiy4y"]
-[ext_resource type="Script" path="res://scripts/ui_margin.gd" id="3_vyru7"]
-[ext_resource type="Theme" uid="uid://b20pecjb30omo" path="res://ui_secondary.tres" id="4_nandn"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_bymbt"]
+[ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/themes/ui_theme.tres" id="2_brtr4"]
+[ext_resource type="Theme" uid="uid://b20pecjb30omo" path="res://resources/themes/ui_secondary.tres" id="4_s0w80"]
 
 [node name="main" type="Node2D"]
-script = ExtResource("1_86r33")
+script = ExtResource("1_bymbt")
 
 [node name="MainMenu" type="Control" parent="."]
 texture_filter = 1
@@ -15,7 +14,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 216.0
 offset_bottom = 384.0
-theme = ExtResource("2_kiy4y")
+theme = ExtResource("2_brtr4")
 
 [node name="BottomBar2" type="ColorRect" parent="MainMenu"]
 custom_minimum_size = Vector2(0, 64)
@@ -28,7 +27,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.129412, 0.180392, 0.215686, 1)
 
-[node name="UIMarginContainer" type="MarginContainer" parent="MainMenu/BottomBar2"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/BottomBar2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,20 +38,19 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
-script = ExtResource("3_vyru7")
 
-[node name="hbox" type="VBoxContainer" parent="MainMenu/BottomBar2/UIMarginContainer"]
+[node name="hbox" type="VBoxContainer" parent="MainMenu/BottomBar2/MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="btn_NewGame" type="Button" parent="MainMenu/BottomBar2/UIMarginContainer/hbox"]
+[node name="btn_NewGame" type="Button" parent="MainMenu/BottomBar2/MarginContainer/hbox"]
 layout_mode = 2
 text = "New Game"
 
-[node name="btn_Exit" type="Button" parent="MainMenu/BottomBar2/UIMarginContainer/hbox"]
+[node name="btn_Exit" type="Button" parent="MainMenu/BottomBar2/MarginContainer/hbox"]
 layout_mode = 2
-theme = ExtResource("4_nandn")
+theme = ExtResource("4_s0w80")
 text = "Exit"
 
-[connection signal="pressed" from="MainMenu/BottomBar2/UIMarginContainer/hbox/btn_NewGame" to="." method="_on_btn_new_game_pressed"]
-[connection signal="pressed" from="MainMenu/BottomBar2/UIMarginContainer/hbox/btn_Exit" to="." method="_on_btn_exit_pressed"]
+[connection signal="pressed" from="MainMenu/BottomBar2/MarginContainer/hbox/btn_NewGame" to="." method="_on_btn_new_game_pressed"]
+[connection signal="pressed" from="MainMenu/BottomBar2/MarginContainer/hbox/btn_Exit" to="." method="_on_btn_exit_pressed"]

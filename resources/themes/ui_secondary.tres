@@ -1,62 +1,46 @@
-[gd_resource type="Theme" load_steps=14 format=3 uid="uid://yoxvktkljigt"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://b20pecjb30omo"]
 
-[ext_resource type="FontFile" uid="uid://b8me7q0cx2y8e" path="res://assets/fonts/terminal-grotesque.ttf" id="1_sdifh"]
-[ext_resource type="Texture2D" uid="uid://4f367og0edh0" path="res://assets/pieces/btn_primary.png" id="2_jmntb"]
-[ext_resource type="Texture2D" uid="uid://bgpl450e5j1ln" path="res://assets/pieces/btn_secondary.png" id="2_lqskn"]
-[ext_resource type="FontFile" uid="uid://p42yca6ye8pg" path="res://assets/fonts/fffforwa.ttf" id="3_y6337"]
-[ext_resource type="Texture2D" uid="uid://vn6mp3i2el56" path="res://assets/pieces/progress.png" id="4_w6vpp"]
+[ext_resource type="FontFile" uid="uid://p42yca6ye8pg" path="res://assets/fonts/fffforwa.ttf" id="1_tce4w"]
+[ext_resource type="Texture2D" uid="uid://4f367og0edh0" path="res://assets/drawables/9pr_btn_primary.png" id="2_jumxn"]
+[ext_resource type="FontFile" uid="uid://b8me7q0cx2y8e" path="res://assets/fonts/terminal-grotesque.ttf" id="3_0biem"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jqe7y"]
-texture = ExtResource("2_jmntb")
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pfng2"]
+texture = ExtResource("2_jumxn")
 texture_margin_left = 12.0
 texture_margin_top = 12.0
 texture_margin_right = 12.0
 texture_margin_bottom = 12.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wone7"]
-texture = ExtResource("2_lqskn")
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pu6ou"]
+texture = ExtResource("2_jumxn")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+modulate_color = Color(0.72549, 0.780392, 0.764706, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i3gqi"]
+texture = ExtResource("2_jumxn")
 texture_margin_left = 12.0
 texture_margin_top = 12.0
 texture_margin_right = 12.0
 texture_margin_bottom = 12.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mwa7j"]
-texture = ExtResource("2_lqskn")
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y86xb"]
+texture = ExtResource("2_jumxn")
 texture_margin_left = 12.0
 texture_margin_top = 12.0
 texture_margin_right = 12.0
 texture_margin_bottom = 12.0
-modulate_color = Color(0.890196, 0.67451, 0.568627, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6tymq"]
-texture = ExtResource("2_lqskn")
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8y0tw"]
-texture = ExtResource("2_lqskn")
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_u7ma5"]
-texture = ExtResource("4_w6vpp")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fr516"]
-texture = ExtResource("4_w6vpp")
-modulate_color = Color(0.894118, 0.490196, 0.294118, 1)
 
 [sub_resource type="FontVariation" id="FontVariation_ny5m6"]
-base_font = ExtResource("1_sdifh")
+base_font = ExtResource("3_0biem")
 spacing_glyph = 2
 spacing_space = 1
 spacing_bottom = 2
 
 [resource]
-default_font = ExtResource("3_y6337")
+default_font = ExtResource("1_tce4w")
 default_font_size = 12
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_disabled_color = Color(1, 1, 1, 1)
@@ -75,31 +59,23 @@ Button/constants/h_separation = 0
 Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
 Button/font_sizes/font_size = 12
-Button/fonts/font = ExtResource("3_y6337")
-Button/styles/disabled = SubResource("StyleBoxTexture_jqe7y")
-Button/styles/focus = SubResource("StyleBoxTexture_wone7")
-Button/styles/hover = SubResource("StyleBoxTexture_mwa7j")
-Button/styles/normal = SubResource("StyleBoxTexture_6tymq")
-Button/styles/pressed = SubResource("StyleBoxTexture_8y0tw")
+Button/fonts/font = ExtResource("1_tce4w")
+Button/styles/disabled = null
+Button/styles/focus = SubResource("StyleBoxTexture_pfng2")
+Button/styles/hover = SubResource("StyleBoxTexture_pu6ou")
+Button/styles/normal = SubResource("StyleBoxTexture_i3gqi")
+Button/styles/pressed = SubResource("StyleBoxTexture_y86xb")
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
-Label/colors/font_shadow_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(1, 1, 1, 1)
 Label/constants/line_spacing = 2
 Label/constants/outline_size = 1
 Label/constants/shadow_offset_x = 0
 Label/constants/shadow_offset_y = 0
 Label/constants/shadow_outline_size = 0
 Label/font_sizes/font_size = 12
-Label/fonts/font = ExtResource("3_y6337")
+Label/fonts/font = ExtResource("1_tce4w")
 Label/styles/normal = null
-ProgressBar/colors/font_color = Color(0, 0, 0, 0)
-ProgressBar/colors/font_outline_color = Color(0, 0, 0, 1)
-ProgressBar/colors/font_shadow_color = Color(0, 0, 0, 1)
-ProgressBar/constants/outline_size = 0
-ProgressBar/font_sizes/font_size = 12
-ProgressBar/fonts/font = ExtResource("3_y6337")
-ProgressBar/styles/background = SubResource("StyleBoxTexture_u7ma5")
-ProgressBar/styles/fill = SubResource("StyleBoxTexture_fr516")
 RichTextLabel/colors/default_color = Color(1, 1, 1, 1)
 RichTextLabel/colors/font_outline_color = Color(1, 1, 1, 1)
 RichTextLabel/colors/font_selected_color = Color(0, 0, 0, 1)
@@ -122,10 +98,10 @@ RichTextLabel/font_sizes/bold_italics_font_size = 18
 RichTextLabel/font_sizes/italics_font_size = 18
 RichTextLabel/font_sizes/mono_font_size = 18
 RichTextLabel/font_sizes/normal_font_size = 20
-RichTextLabel/fonts/bold_font = ExtResource("1_sdifh")
-RichTextLabel/fonts/bold_italics_font = ExtResource("1_sdifh")
-RichTextLabel/fonts/italics_font = ExtResource("1_sdifh")
-RichTextLabel/fonts/mono_font = ExtResource("1_sdifh")
+RichTextLabel/fonts/bold_font = ExtResource("3_0biem")
+RichTextLabel/fonts/bold_italics_font = ExtResource("3_0biem")
+RichTextLabel/fonts/italics_font = ExtResource("3_0biem")
+RichTextLabel/fonts/mono_font = ExtResource("3_0biem")
 RichTextLabel/fonts/normal_font = SubResource("FontVariation_ny5m6")
 RichTextLabel/styles/focus = null
 RichTextLabel/styles/normal = null

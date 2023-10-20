@@ -1,6 +1,6 @@
 extends Control
 
-@onready var score = $BottomBar2/UIMarginContainer/hbox/Score
+@onready var score = $Background/MarginContainer/Score
 
 var _score_value: String = ""
 

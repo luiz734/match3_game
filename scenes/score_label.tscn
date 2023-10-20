@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://7o611rvbaki2"]
 
-[ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="1_yyyqw"]
-[ext_resource type="Script" path="res://score_label.gd" id="2_xlcwt"]
-[ext_resource type="AudioStream" uid="uid://4n8hgll2807l" path="res://assets/audio/correct.mp3" id="3_1kwe4"]
+[ext_resource type="Script" path="res://scripts/score_label.gd" id="1_vqnma"]
+[ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/themes/ui_theme.tres" id="2_n32k7"]
+[ext_resource type="AudioStream" uid="uid://4n8hgll2807l" path="res://assets/audio/score.mp3" id="3_lxmv0"]
 
 [node name="ScoreLabel" type="Node2D"]
 modulate = Color(1, 1, 1, 0.654902)
 scale = Vector2(0.3, 0.3)
-script = ExtResource("2_xlcwt")
+script = ExtResource("1_vqnma")
 
 [node name="ScoreLabel" type="Label" parent="."]
 z_index = 99
@@ -23,7 +23,7 @@ offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
-theme = ExtResource("1_yyyqw")
+theme = ExtResource("2_n32k7")
 theme_override_font_sizes/font_size = 31
 text = "0"
 horizontal_alignment = 1
@@ -31,5 +31,5 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_1kwe4")
+stream = ExtResource("3_lxmv0")
 volume_db = -7.0

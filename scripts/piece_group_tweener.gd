@@ -1,7 +1,7 @@
 extends Node
 class_name PieceGroupTweener
 
-const ScoreLabelPrefab = preload("res://score_label.tscn")
+const ScoreLabelPrefab = preload("res://scenes/score_label.tscn")
 const SCORE_DURATION_SEC = 0.1
 const POSITION_DURATION_SEC = 0.1
 

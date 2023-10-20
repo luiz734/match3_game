@@ -1,31 +1,28 @@
-[gd_scene load_steps=21 format=3 uid="uid://b6do74c8c254k"]
+[gd_scene load_steps=19 format=3 uid="uid://b6do74c8c254k"]
 
-[ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/ui_theme.tres" id="1_g1dh2"]
-[ext_resource type="Script" path="res://scripts/game.gd" id="2_3opcp"]
-[ext_resource type="Script" path="res://score_manager.gd" id="4_61cwe"]
-[ext_resource type="Script" path="res://score.gd" id="4_qvgx8"]
-[ext_resource type="Texture2D" uid="uid://c34v7pk5uc0h7" path="res://assets/pieces/icon_pause.png" id="5_mhcpq"]
-[ext_resource type="Script" path="res://shuffles.gd" id="5_nxdj1"]
-[ext_resource type="Script" path="res://progress_bar.gd" id="5_qoynr"]
-[ext_resource type="Script" path="res://debug/actions.gd" id="6_2sxbd"]
-[ext_resource type="Texture2D" uid="uid://c711s8kw0lhmb" path="res://assets/drawables/9pr_grid.png" id="7_illqy"]
-[ext_resource type="Script" path="res://scripts/grid.gd" id="8_atby6"]
-[ext_resource type="FontFile" uid="uid://p42yca6ye8pg" path="res://assets/fonts/fffforwa.ttf" id="9_6tya1"]
-[ext_resource type="Resource" uid="uid://etwy2pef8thk" path="res://resources/bat.tres" id="9_6vvf3"]
-[ext_resource type="Script" path="res://button_shuffle.gd" id="9_yullx"]
-[ext_resource type="Resource" uid="uid://y588thyyfkmx" path="res://resources/candle.tres" id="10_2r2ah"]
-[ext_resource type="Resource" uid="uid://k2jrlbrg028i" path="res://resources/ghost.tres" id="11_ayy1k"]
-[ext_resource type="Script" path="res://scripts/piece_group_tweener.gd" id="12_pi8eb"]
-[ext_resource type="Resource" uid="uid://c7ovlhbwxqf7g" path="res://resources/hat.tres" id="15_cp4at"]
-[ext_resource type="Resource" uid="uid://pcg0e03y3xgx" path="res://resources/pumpkin.tres" id="16_pbcsw"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_orfer"]
+[ext_resource type="Script" path="res://scripts/score_manager.gd" id="2_btnxs"]
+[ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/themes/ui_theme.tres" id="3_dsy0w"]
+[ext_resource type="Script" path="res://scripts/score.gd" id="4_0ssm6"]
+[ext_resource type="FontFile" uid="uid://p42yca6ye8pg" path="res://assets/fonts/fffforwa.ttf" id="5_yp0k2"]
+[ext_resource type="Script" path="res://scripts/shuffles.gd" id="6_m5hg8"]
+[ext_resource type="Script" path="res://scripts/progress_bar.gd" id="7_jogc1"]
+[ext_resource type="Texture2D" uid="uid://c711s8kw0lhmb" path="res://assets/drawables/9pr_grid.png" id="9_2i22a"]
+[ext_resource type="Script" path="res://scripts/button_shuffle.gd" id="10_lw0op"]
+[ext_resource type="Script" path="res://debug/actions.gd" id="11_rwufq"]
+[ext_resource type="Script" path="res://scripts/grid.gd" id="12_yw37i"]
+[ext_resource type="Resource" uid="uid://etwy2pef8thk" path="res://resources/bat.tres" id="13_rpufc"]
+[ext_resource type="Resource" uid="uid://y588thyyfkmx" path="res://resources/candle.tres" id="14_bk1va"]
+[ext_resource type="Resource" uid="uid://k2jrlbrg028i" path="res://resources/ghost.tres" id="15_y0xqt"]
+[ext_resource type="Resource" uid="uid://c7ovlhbwxqf7g" path="res://resources/hat.tres" id="16_dqxrt"]
+[ext_resource type="Resource" uid="uid://pcg0e03y3xgx" path="res://resources/pumpkin.tres" id="17_uvfgo"]
+[ext_resource type="Script" path="res://scripts/piece_group_tweener.gd" id="18_nc1eg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ff3w3"]
 bg_color = Color(0.894118, 0.490196, 0.294118, 1)
 border_width_bottom = 2
 border_color = Color(0.894118, 0.490196, 0.294118, 1)
 anti_aliasing = false
-
-[sub_resource type="Theme" id="Theme_op0ii"]
 
 [node name="Game" type="Control"]
 texture_filter = 1
@@ -34,10 +31,10 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 216.0
 offset_bottom = 384.0
-script = ExtResource("2_3opcp")
+script = ExtResource("1_orfer")
 
 [node name="ScoreManager" type="Node2D" parent="." node_paths=PackedStringArray("progress", "level", "button", "score")]
-script = ExtResource("4_61cwe")
+script = ExtResource("2_btnxs")
 progress = NodePath("../HBoxContainer/TopBar/hbox/MarginContainer/ProgressBar")
 level = NodePath("../HBoxContainer/TopBar/hbox/HBoxContainer/Level")
 button = NodePath("../HBoxContainer/BottomBar2/UIMarginContainer/hbox/btn_Shuffle")
@@ -86,27 +83,27 @@ theme_override_constants/margin_right = 20
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 1
-theme = ExtResource("1_g1dh2")
+theme = ExtResource("3_dsy0w")
 theme_override_font_sizes/font_size = 18
 text = "0
 "
 horizontal_alignment = 1
 vertical_alignment = 2
 justification_flags = 0
-script = ExtResource("4_qvgx8")
+script = ExtResource("4_0ssm6")
 
 [node name="Level" type="Label" parent="HBoxContainer/TopBar/hbox/HBoxContainer"]
 z_index = 1
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 size_flags_horizontal = 8
-theme_override_fonts/font = ExtResource("9_6tya1")
+theme_override_fonts/font = ExtResource("5_yp0k2")
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_ff3w3")
 text = "1"
 horizontal_alignment = 1
 vertical_alignment = 2
-script = ExtResource("5_nxdj1")
+script = ExtResource("6_m5hg8")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/TopBar/hbox"]
 layout_mode = 2
@@ -119,36 +116,9 @@ layout_mode = 2
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/TopBar/hbox/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1_g1dh2")
+theme = ExtResource("3_dsy0w")
 value = 50.0
-script = ExtResource("5_qoynr")
-
-[node name="Button" type="Button" parent="HBoxContainer/TopBar"]
-visible = false
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -24.0
-offset_top = -12.0
-offset_bottom = 12.0
-grow_horizontal = 0
-grow_vertical = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme = SubResource("Theme_op0ii")
-theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
-theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
-theme_override_colors/icon_disabled_color = Color(1, 1, 1, 1)
-icon = ExtResource("5_mhcpq")
-flat = true
-icon_alignment = 1
-expand_icon = true
+script = ExtResource("7_jogc1")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
 z_index = 2
@@ -160,7 +130,7 @@ theme_override_constants/margin_right = 4
 
 [node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer"]
 layout_mode = 2
-texture = ExtResource("7_illqy")
+texture = ExtResource("9_2i22a")
 patch_margin_left = 8
 patch_margin_top = 8
 patch_margin_right = 8
@@ -191,9 +161,9 @@ alignment = 1
 [node name="btn_Shuffle" type="Button" parent="HBoxContainer/BottomBar2/UIMarginContainer/hbox"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1_g1dh2")
+theme = ExtResource("3_dsy0w")
 text = "Shuffle"
-script = ExtResource("9_yullx")
+script = ExtResource("10_lw0op")
 
 [node name="actions" type="VBoxContainer" parent="."]
 visible = false
@@ -209,18 +179,18 @@ offset_bottom = -95.0
 grow_vertical = 2
 mouse_filter = 2
 theme_override_constants/separation = 2
-script = ExtResource("6_2sxbd")
+script = ExtResource("11_rwufq")
 
 [node name="CanvasGroup" type="CanvasGroup" parent="."]
 
 [node name="Grid" type="Node2D" parent="CanvasGroup"]
 position = Vector2(28, 61)
-script = ExtResource("8_atby6")
-pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("9_6vvf3"), ExtResource("10_2r2ah"), ExtResource("11_ayy1k"), ExtResource("15_cp4at"), ExtResource("16_pbcsw")])
+script = ExtResource("12_yw37i")
+pieces_resources = Array[Resource("res://resources/scripts/piece_res.gd")]([ExtResource("13_rpufc"), ExtResource("14_bk1va"), ExtResource("15_y0xqt"), ExtResource("16_dqxrt"), ExtResource("17_uvfgo")])
 multipliers = Array[int]([1, 2, 5, 5])
 
 [node name="PieceGroupTweener" type="Node2D" parent="CanvasGroup/Grid"]
-script = ExtResource("12_pi8eb")
+script = ExtResource("18_nc1eg")
 
 [node name="CoverFirstRow" type="ColorRect" parent="."]
 z_index = 1
