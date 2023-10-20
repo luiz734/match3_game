@@ -1,6 +1,4 @@
-![Main menu screenshot](screenshots/main_menu.png)
-![In game screenshot](screenshots/in_game.png)
-![Game over screenshot](screenshots/game_over.png)
+![Game screenshots](screenshots/combined.png)
 
 # Match3 Game
 This is a simple, yet fully functional "match 3" game created using Godot 4.
