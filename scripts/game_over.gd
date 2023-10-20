@@ -1,7 +1,6 @@
 extends Control
 
-@onready var score = $Background/MarginContainer/Score
-
+@onready var score: Label = $Background/MarginContainer/ScoreLabel
 var _score_value: String = ""
 
 func _ready():

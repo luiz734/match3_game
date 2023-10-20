@@ -2,9 +2,9 @@ extends Node2D
 
 const UiGamePrefab = preload("res://scenes/game.tscn")
 const UiGameOverPrefab = preload("res://scenes/game_over.tscn")
+@onready var ui_menu = $MainMenuUI
 var ui_game = null
 var ui_game_over = null
-@onready var ui_menu = $MainMenu
 
 func _ready():
     get_window().size *= 2

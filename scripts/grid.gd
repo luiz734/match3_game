@@ -1,62 +1,51 @@
 extends Node2D
 
+const SPRITE_SIZE = 32
+const Match3Core = preload("res://scripts/standalone/match3_core.gd")
+const PiecePrefab = preload("res://scenes/piece.tscn")
 @export var grid_size_x = 6
 @export var grid_size_y = 8
 @export var spacement = 0
 @export var pieces_resources: Array[PieceRes] = []
 @export var multipliers: Array[int] = []
-
-const SPRITE_SIZE = 32
-
-const Match3Core = preload("res://scripts/standalone/match3_core.gd")
-
 @onready var pieces_tweener: PieceGroupTweener = $PieceGroupTweener
-
 # can be 0, 1 or 2
-
 var current_diffuculty = 0
 var action_locked = false
 var require_update = true
 var rng = RandomNumberGenerator.new()
-var _last_match_type: Match3Core.MatchType
-
-func lock_actions():
-    action_locked = true
-    Events.input_locket = true
-func unlock_actions():
-    action_locked = false
-    Events.input_locket = false
-    
+var _last_match_type: Match3Core.MatchType   
 var _combo_count = 0
 var pieces: Array[Piece] = []
 var match3_core: Match3Core
-const PiecePrefab = preload("res://scenes/piece.tscn")
+
 
 func _ready():
     rng.randomize()
     var seed: int = rng.randi()
-#    seed(seed)
-    seed(2)
+    seed(seed)
     Events.current_score = 0
     print_debug("Seed:", seed) 
     assert(len(multipliers) == 4)
     assert(not pieces_resources.is_empty(), "Add at least 1 piece resource")
-    Events.connect("piece_index_changed", on_piece_index_changed)
-    Events.connect("swap_requested", on_swap_requested)
-    Events.connect("shuffle_requested", on_shuffle_requested)
-    Events.connect("medium_dificulty_reached", func(): current_diffuculty += 1)
-    Events.connect("hard_dificulty_reached", func(): current_diffuculty += 1)
-    
-#    Events.connelesect("piece_removed_from_poll", on_piece_removed_from_poll)
+    Events.swap_requested.connect(on_swap_requested)
+    Events.shuffle_requested.connect(on_shuffle_requested)
+    Events.medium_dificulty_reached.connect(func(): current_diffuculty += 1)
+    Events.hard_dificulty_reached.connect(func(): current_diffuculty += 1)
 
     for i in range(grid_size_x * grid_size_y):
         pieces.push_back(null)
         
     match3_core = Match3Core.new(grid_size_x, grid_size_y)
     
-func on_piece_index_changed(piece: Piece):
-    return
+func lock_actions():
+    action_locked = true
+    Events.input_locket = true
     
+func unlock_actions():
+    action_locked = false
+    Events.input_locket = false
+  
 func swap_pieces(a, b):
     a.next_index = b.index
     b.next_index = a.index
@@ -82,14 +71,10 @@ func on_shuffle_requested() -> void:
     for i in range(start, total_pieces, 2):
         var index_a = shuffled_grid[i]
         var index_b = shuffled_grid[i+1]
-        
-#        print("swap ", index_a, " ", index_b)
-        
         var a = pieces[index_a]
         var b = pieces[index_b]
         to_swap.push_back(a)
         to_swap.push_back(b)
-        
         a.next_index = b.index
         b.next_index = a.index
         pieces[a.index] = b
@@ -114,10 +99,8 @@ func on_swap_requested(a, b) -> void:
     if candidates.is_empty():
         await swap_pieces(a, b)
         
-        
     unlock_actions()
     next_match()
-    
     
 func create_piece_as_child(index) -> Piece:
     var new_piece = PiecePrefab.instantiate()
@@ -125,10 +108,8 @@ func create_piece_as_child(index) -> Piece:
     var rand_piece_index = randi_range(0, 2 + current_diffuculty)
     var rand_piece_res = pieces_resources[rand_piece_index]
     
-    
     new_piece.init(rand_piece_res, grid_size_x)
     # todo: create a single function for position
-    
     var p_col = (index % grid_size_x)
     var p_row = 0
     var p_pos = Vector2(p_col * (SPRITE_SIZE + spacement), p_row * (SPRITE_SIZE + spacement))
@@ -167,10 +148,8 @@ func fill_dispenser() -> bool:
             
     return one_or_more_filled
 
-
 var __debug_match_call_count = 0
 func next_match():
-
     # This should ALWAYS be true or bad things will happen.
     # If it's more that 1, that means that this function was called some 
     # other place and it's still awaiting some signal. Calling again may 
@@ -216,7 +195,6 @@ func next_match():
             pieces_tweener.animate_score(scored_pieces, multiplier, _combo_count)
             await pieces_tweener.animate_score_finished
         
-        
         var indexes_removed_from_poll = match3_core.get_removed_from_poll_indexes()
         
         for i in indexes_removed_from_poll:
@@ -227,11 +205,9 @@ func next_match():
     Events.combo_ended.emit(_combo_count)
     if Events.current_level < 0:
         Events.game_over.emit(Events.current_score)
-   
     
     __debug_match_call_count -= 1
         
-     
 func cmp_func(a: Piece, b: Piece) -> bool:
     if a.used or b.used: return false
     
@@ -251,7 +227,6 @@ func are_neighbors(a, b):
     
     return v_neighbor or h_neighbor
     
-
 ## This method make changes INPLACE
 func smash_all_lines():        
     for col in range(0, grid_size_x, 1):
@@ -271,7 +246,3 @@ func fill_null_spots():
     for i in range(grid_size_x * grid_size_y):
         if pieces[i] == null:
             pieces[i] = create_piece_as_child(i)
-        
-        
-    
- 

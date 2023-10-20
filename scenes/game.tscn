@@ -24,7 +24,7 @@ border_width_bottom = 2
 border_color = Color(0.894118, 0.490196, 0.294118, 1)
 anti_aliasing = false
 
-[node name="Game" type="Control"]
+[node name="GameUI" type="Control"]
 texture_filter = 1
 custom_minimum_size = Vector2(216, 384)
 layout_mode = 3
@@ -35,10 +35,10 @@ script = ExtResource("1_orfer")
 
 [node name="ScoreManager" type="Node2D" parent="." node_paths=PackedStringArray("progress", "level", "button", "score")]
 script = ExtResource("2_btnxs")
-progress = NodePath("../HBoxContainer/TopBar/hbox/MarginContainer/ProgressBar")
-level = NodePath("../HBoxContainer/TopBar/hbox/HBoxContainer/Level")
-button = NodePath("../HBoxContainer/BottomBar2/UIMarginContainer/hbox/btn_Shuffle")
-score = NodePath("../HBoxContainer/TopBar/hbox/HBoxContainer/Score")
+progress = NodePath("../HBoxContainer/TopBar/HBoxContainer/MarginContainer/CurrentLevelProgress")
+level = NodePath("../HBoxContainer/TopBar/HBoxContainer/HBoxContainer/Level")
+button = NodePath("../HBoxContainer/BottomBar/MarginContainer/HBoxContainer/Shuffle")
+score = NodePath("../HBoxContainer/TopBar/HBoxContainer/HBoxContainer/Score")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -48,6 +48,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+color = Color(0.0941176, 0.121569, 0.152941, 1)
+
+[node name="CoverFirstRow" type="ColorRect" parent="."]
+z_index = 1
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+offset_top = 58.0
+offset_right = 216.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.0941176, 0.121569, 0.152941, 1)
 
 [node name="HBoxContainer" type="VBoxContainer" parent="."]
@@ -65,7 +76,7 @@ layout_mode = 2
 mouse_filter = 2
 color = Color(0.129412, 0.180392, 0.215686, 1)
 
-[node name="hbox" type="VBoxContainer" parent="HBoxContainer/TopBar"]
+[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer/TopBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -74,12 +85,12 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="HBoxContainer" type="MarginContainer" parent="HBoxContainer/TopBar/hbox"]
+[node name="HBoxContainer" type="MarginContainer" parent="HBoxContainer/TopBar/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_right = 20
 
-[node name="Score" type="Label" parent="HBoxContainer/TopBar/hbox/HBoxContainer"]
+[node name="Score" type="Label" parent="HBoxContainer/TopBar/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 1
@@ -92,7 +103,7 @@ vertical_alignment = 2
 justification_flags = 0
 script = ExtResource("4_0ssm6")
 
-[node name="Level" type="Label" parent="HBoxContainer/TopBar/hbox/HBoxContainer"]
+[node name="Level" type="Label" parent="HBoxContainer/TopBar/HBoxContainer/HBoxContainer"]
 z_index = 1
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
@@ -105,15 +116,15 @@ horizontal_alignment = 1
 vertical_alignment = 2
 script = ExtResource("6_m5hg8")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/TopBar/hbox"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/TopBar/HBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
+theme_override_constants/margin_left = 20
 theme_override_constants/margin_right = 20
 
-[node name="Control" type="Control" parent="HBoxContainer/TopBar/hbox/MarginContainer"]
+[node name="Control" type="Control" parent="HBoxContainer/TopBar/HBoxContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/TopBar/hbox/MarginContainer"]
+[node name="CurrentLevelProgress" type="ProgressBar" parent="HBoxContainer/TopBar/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_dsy0w")
@@ -122,13 +133,14 @@ script = ExtResource("7_jogc1")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
 z_index = 2
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_right = 4
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/MarginContainer"]
+[node name="GridBorder" type="NinePatchRect" parent="HBoxContainer/MarginContainer"]
 layout_mode = 2
 texture = ExtResource("9_2i22a")
 patch_margin_left = 8
@@ -136,13 +148,13 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="BottomBar2" type="ColorRect" parent="HBoxContainer"]
+[node name="BottomBar" type="ColorRect" parent="HBoxContainer"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 mouse_filter = 2
 color = Color(0.129412, 0.180392, 0.215686, 1)
 
-[node name="UIMarginContainer" type="MarginContainer" parent="HBoxContainer/BottomBar2"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/BottomBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -154,18 +166,18 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="hbox" type="HBoxContainer" parent="HBoxContainer/BottomBar2/UIMarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/BottomBar/MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="btn_Shuffle" type="Button" parent="HBoxContainer/BottomBar2/UIMarginContainer/hbox"]
+[node name="Shuffle" type="Button" parent="HBoxContainer/BottomBar/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_dsy0w")
 text = "Shuffle"
 script = ExtResource("10_lw0op")
 
-[node name="actions" type="VBoxContainer" parent="."]
+[node name="Debug_actions" type="VBoxContainer" parent="."]
 visible = false
 clip_contents = true
 custom_minimum_size = Vector2(500, 0)
@@ -192,27 +204,6 @@ multipliers = Array[int]([1, 2, 5, 5])
 [node name="PieceGroupTweener" type="Node2D" parent="CanvasGroup/Grid"]
 script = ExtResource("18_nc1eg")
 
-[node name="CoverFirstRow" type="ColorRect" parent="."]
-z_index = 1
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -129.0
-offset_bottom = -117.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.0941176, 0.121569, 0.152941, 1)
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_right = 0
-
-[connection signal="value_changed" from="HBoxContainer/TopBar/hbox/MarginContainer/ProgressBar" to="HBoxContainer/TopBar/hbox/MarginContainer/ProgressBar" method="_on_value_changed"]
-[connection signal="focus_entered" from="HBoxContainer/BottomBar2/UIMarginContainer/hbox/btn_Shuffle" to="HBoxContainer/BottomBar2/UIMarginContainer/hbox/btn_Shuffle" method="_on_focus_entered"]
-[connection signal="pressed" from="HBoxContainer/BottomBar2/UIMarginContainer/hbox/btn_Shuffle" to="ScoreManager" method="_on_btn_shuffle_pressed"]
+[connection signal="value_changed" from="HBoxContainer/TopBar/HBoxContainer/MarginContainer/CurrentLevelProgress" to="HBoxContainer/TopBar/HBoxContainer/MarginContainer/CurrentLevelProgress" method="_on_value_changed"]
+[connection signal="focus_entered" from="HBoxContainer/BottomBar/MarginContainer/HBoxContainer/Shuffle" to="HBoxContainer/BottomBar/MarginContainer/HBoxContainer/Shuffle" method="_on_focus_entered"]
+[connection signal="pressed" from="HBoxContainer/BottomBar/MarginContainer/HBoxContainer/Shuffle" to="ScoreManager" method="_on_btn_shuffle_pressed"]

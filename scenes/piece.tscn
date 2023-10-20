@@ -28,7 +28,7 @@ texture = ExtResource("2_v3wnf")
 stretch_mode = 2
 script = ExtResource("3_k0mmm")
 
-[node name="Index" type="Label" parent="."]
+[node name="Debug_index" type="Label" parent="."]
 visible = false
 offset_left = 14.0
 offset_top = -20.0

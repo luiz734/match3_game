@@ -1,13 +1,11 @@
 extends Node
 class_name PieceGroupTweener
 
-const ScoreLabelPrefab = preload("res://scenes/score_label.tscn")
-const SCORE_DURATION_SEC = 0.1
-const POSITION_DURATION_SEC = 0.1
-
 signal animate_score_finished
 signal animate_position_finished
-
+const ScoreLabelPrefab = preload("res://scenes/floating_score_label.tscn")
+const SCORE_DURATION_SEC = 0.1
+const POSITION_DURATION_SEC = 0.1
 var _active_count = 0
 
 func any_animation_playing():

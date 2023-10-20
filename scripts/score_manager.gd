@@ -4,8 +4,6 @@ extends Node2D
 @export var level: Label
 @export var button: Button
 @export var score: Label
-
-
 var _combo_length: int = 0
 var _combo_sum: int = 0
 var _can_gain_level: bool = true

@@ -1,12 +1,17 @@
 extends Node2D
 class_name Piece
 
-@onready var label_index = $Index
-@onready var texture_rect = $TextureRect
-@export var _piece_res: PieceRes
 
+@export var _piece_res: PieceRes
+@onready var label_index = $Debug_index
+@onready var texture_rect = $TextureRect
+signal piece_clicked(piece: Piece)
+signal action_animation_finished
 var _interactable: bool = true
 var _grid_size_x: int
+var next_index = -1
+var used = false
+
 
 var index = -1:
     set(value):
@@ -16,12 +21,11 @@ var index = -1:
         Events.piece_index_changed.emit(self)
         name = "piece_" + str(value)
         _interactable = index >= _grid_size_x
-var next_index = -1
-        
-signal piece_clicked(piece: Piece)
-signal action_animation_finished
 
-var used = false
+        
+
+
+
 
 func init(piece_res: PieceRes, grid_size_x: int):
     self._piece_res = piece_res

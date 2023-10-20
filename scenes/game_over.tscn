@@ -37,7 +37,7 @@ theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="Label" type="Label" parent="Background/MarginContainer"]
+[node name="GameOverLabel" type="Label" parent="Background/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 25
@@ -45,16 +45,16 @@ text = "Game Over"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="Background/MarginContainer"]
+[node name="MainMenu" type="Button" parent="Background/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 8
 text = "Main Menu"
 
-[node name="Score" type="Label" parent="Background/MarginContainer"]
+[node name="ScoreLabel" type="Label" parent="Background/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "-1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="Background/MarginContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Background/MarginContainer/MainMenu" to="." method="_on_button_pressed"]
