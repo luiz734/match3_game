@@ -17,7 +17,6 @@ config/icon="res://assets/drawables/icon.svg"
 
 [autoload]
 
-Res="*res://scripts/globals/res.gd"
 Events="*res://scripts/globals/events.gd"
 
 [display]

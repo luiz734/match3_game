@@ -4,11 +4,28 @@ extends Node
 ## All function DON'T change any argument. Instead, they return a new value.
 class_name Match3Core
 
+## -------------------------------------------------------
+# HOW TO USE THIS SCRIPT?
+# 1. Create a new instance with the desired dimensions.
+# 2. Read all the function and variable descriptions.
+# 3. Read the file "grid.gd" for usage examples.
+# 4. DON'T attach this script to anything. It should be used by itself.
+# 5. Pay attention to the function return values: sometimes the type
+#    retuned is Array when it shoud be Array[SomeType]. This is a limitation
+#    of gdscript (arrays in Gdscript cant be casted directly). Again, read
+#    the "grid.gd" file or other files if necessary. This is a simple, but full
+#    working game, so any usage examples probably will be found.
+#
+# HOW IT WORKS?
+# This script DOESN'T make changes in any of its methods parameters.
+# Instead, it return values that should be used.
+#
+# CHANGING ANYTHING IN HERE MAY BREAK SOMETHING. DO IT AT YOUR ON RISK.
+
 ## Maximum length for a match of type "N in a row or col". 
 const MAX_N_LENGTH = 5
 ## Elements that cant be used anymore.
 var removed_from_poll: Array[bool] = [] 
-
 
 ## --------------- auxiliar classes & enums ---------------
 ## The direction of a sequence.
@@ -25,11 +42,12 @@ class SequenceData:
     ## Horizontal or Vertical
     var direction: Direction
     
-    func _init(index, length, direction):
-        self.index = index
-        self.length = length
-        self.direction = direction
+    func _init(_index, _length, _direction):
+        self.index = _index
+        self.length = _length
+        self.direction = _direction
 
+## Match Types
 enum MatchType {
     NO_MATCH,
     MATCH_5,
@@ -42,10 +60,11 @@ class MatchData:
     var type: MatchType
     var indexes: Array
     
-    func _init(type: MatchType, indexes: Array):
-        self.type = type
-        self.indexes = indexes
+    func _init(_type: MatchType, _indexes: Array):
+        self.type = _type
+        self.indexes = _indexes
 
+## Grid dimensions
 var len_x
 var len_y
 
@@ -93,6 +112,7 @@ func get_3_first_of_4(arr: Array) -> Array:
     var x = arr.duplicate()
     x.pop_back()
     return x
+
 ## Gets the 3 last elements of an array.
 ## Returns these elements as a new array. 
 func get_3_last_of_4(arr) -> Array:
@@ -100,6 +120,7 @@ func get_3_last_of_4(arr) -> Array:
     var x = arr.duplicate()
     x.pop_front()
     return x
+
 ## Checks if 2 sequence intersects each other making a match T.
 ## Returns the elements that make the T match, or an empty array if any.
 func find_T_intersection(match_center: Array, match_edges: Array) -> Array:
@@ -264,22 +285,19 @@ func get_most_valuable_match(matches: Array) -> MatchData:
     
     return MatchData.new(MatchType.NO_MATCH, [])
 
-## Returns a new array with all the non-null elements on bottom and all null on top
-## This method DOESN'T change the source array
+## Returns a new array with all the non-null elements on bottom and all null on top.
+## This method DOESN'T change the source array.
 func get_notnull_first(grid: Array, start: int, end: int, step: int) -> Array:
     var out_column_arr: Array = []
-    var count = 0
     for i in range(start, end, step):
         if grid[i]:
             out_column_arr.push_back(grid[i])
-            count += 1
     for i in range(len(out_column_arr), len_y, 1):
         out_column_arr.push_back(null)
-    # hack: change the logic so it's not necessary reverse
-#    out_arr.reverse()
     assert(len(out_column_arr) == len_y)
     return out_column_arr
 
+## Returns the indexes from pieces that were removed from poll.
 func get_removed_from_poll_indexes() -> Array:
     var arr = []
     for i in range(len_x * len_y):
@@ -287,6 +305,7 @@ func get_removed_from_poll_indexes() -> Array:
             arr.push_back(i)
     return arr
 
-func reset_removed_from_poll():
+## Mark all removed from poll as pieces as non-removed.
+func reset_removed_from_poll() -> void:
     for i in range(len(removed_from_poll)):
         removed_from_poll[i] = false

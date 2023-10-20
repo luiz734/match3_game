@@ -1,6 +1,6 @@
 extends Control
 
-
+## Handle the UI for the game scene. Not cover the pieces (see grid.gd).
 
 @onready var grid = $CanvasGroup/Grid
 
@@ -14,4 +14,3 @@ func _ready():
     
 func _on_btn_swap_pressed():
     grid.swap_all_random()
-

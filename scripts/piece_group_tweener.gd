@@ -1,6 +1,11 @@
 extends Node
 class_name PieceGroupTweener
 
+## Handle tween animations for a group of pieces.
+## Can only handle 1 animations per time. Calling it
+## twice will generates and assertion errors.
+## Insted, it should be await for animations to finish.
+
 signal animate_score_finished
 signal animate_position_finished
 const ScoreLabelPrefab = preload("res://scenes/floating_score_label.tscn")
@@ -29,13 +34,13 @@ func animate_score(pieces: Array, multiplier, combo):
             if _active_count == 0: animate_score_finished.emit()
         )
 
-func animate_position(pieces: Array, len_x: int, len_y: int, spacement: int, sprite_size: int):
+func animate_position(pieces: Array, len_x: int, spacement: int, sprite_size: int):
     if _active_count != 0: return
     assert(not pieces.is_empty(), "At least one piece is required.")
     assert(_active_count == 0, "Other animation is playing.")
     for p in pieces:
         var t = get_tree().create_tween()
-        var p_row = floor(p.next_index / len_x)
+        var p_row = int(p.next_index / len_x)
         var p_col = p.next_index % len_x
         var p_pos = Vector2(p_col * (sprite_size + spacement), p_row * (sprite_size + spacement))
         t.tween_property(p, "position", p_pos, POSITION_DURATION_SEC)

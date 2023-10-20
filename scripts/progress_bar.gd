@@ -1,5 +1,7 @@
 extends ProgressBar
 
+## The progress bar showed in the game UI.
+
 signal reached_zero
 
 func change_value_to(new_value):
@@ -13,7 +15,6 @@ func _physics_process(delta):
 #    print(Events.current_score / 1000)
     value -= 15 * delta
 
-
-func _on_value_changed(value):
-    if value <= 1:
+func _on_value_changed(v):
+    if v <= 1:
         reached_zero.emit()

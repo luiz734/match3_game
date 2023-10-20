@@ -1,6 +1,7 @@
 extends Node2D
 class_name Piece
 
+## Represents a piece. Mostly handle data, only.
 
 @export var _piece_res: PieceRes
 @onready var label_index = $Debug_index
@@ -11,7 +12,6 @@ var _interactable: bool = true
 var _grid_size_x: int
 var next_index = -1
 var used = false
-
 
 var index = -1:
     set(value):

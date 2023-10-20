@@ -1,10 +1,10 @@
 [gd_scene load_steps=19 format=3 uid="uid://b6do74c8c254k"]
 
-[ext_resource type="Script" path="res://scripts/game.gd" id="1_orfer"]
+[ext_resource type="Script" path="res://scripts/game_ui.gd" id="1_tn0mm"]
 [ext_resource type="Script" path="res://scripts/score_manager.gd" id="2_btnxs"]
 [ext_resource type="Theme" uid="uid://yoxvktkljigt" path="res://resources/themes/ui_theme.tres" id="3_dsy0w"]
 [ext_resource type="Script" path="res://scripts/score.gd" id="4_0ssm6"]
-[ext_resource type="FontFile" uid="uid://p42yca6ye8pg" path="res://assets/fonts/fffforwa.ttf" id="5_yp0k2"]
+[ext_resource type="FontFile" uid="uid://p42yca6ye8pg" path="res://assets/fonts/fffforwad.ttf" id="5_a2ccs"]
 [ext_resource type="Script" path="res://scripts/shuffles.gd" id="6_m5hg8"]
 [ext_resource type="Script" path="res://scripts/progress_bar.gd" id="7_jogc1"]
 [ext_resource type="Texture2D" uid="uid://c711s8kw0lhmb" path="res://assets/drawables/9pr_grid.png" id="9_2i22a"]
@@ -31,7 +31,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 216.0
 offset_bottom = 384.0
-script = ExtResource("1_orfer")
+script = ExtResource("1_tn0mm")
 
 [node name="ScoreManager" type="Node2D" parent="." node_paths=PackedStringArray("progress", "level", "button", "score")]
 script = ExtResource("2_btnxs")
@@ -108,7 +108,7 @@ z_index = 1
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 size_flags_horizontal = 8
-theme_override_fonts/font = ExtResource("5_yp0k2")
+theme_override_fonts/font = ExtResource("5_a2ccs")
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_ff3w3")
 text = "1"

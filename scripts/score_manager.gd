@@ -1,5 +1,7 @@
 extends Node2D
 
+## Handles the score related logic.
+
 @export var progress: ProgressBar
 @export var level: Label
 @export var button: Button
@@ -7,7 +9,6 @@ extends Node2D
 var _combo_length: int = 0
 var _combo_sum: int = 0
 var _can_gain_level: bool = true
-var _level_sum = 0
 
 func _ready():
     Events.combo_started.connect(self.on_combo_started)
@@ -23,8 +24,7 @@ func on_combo_started():
 func on_combo_changed(value):
     _combo_length = value
     
-func on_combo_ended(length):
-#    print("combo ended")
+func on_combo_ended(_length):
     _can_gain_level = true
     
 func on_piece_scored(amount):

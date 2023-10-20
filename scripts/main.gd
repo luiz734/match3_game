@@ -1,5 +1,7 @@
 extends Node2D
 
+# The main node. Handle scene changes and some inputs.
+
 const UiGamePrefab = preload("res://scenes/game.tscn")
 const UiGameOverPrefab = preload("res://scenes/game_over.tscn")
 @onready var ui_menu = $MainMenuUI

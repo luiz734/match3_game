@@ -1,5 +1,8 @@
 extends Node2D
 
+## Shows a floating score in each piece that disapears over time when the
+## user scores. Alsoo has an AudioStreamPlayer for the sound effets.
+
 const MAX_COMBO_PITCH = 5
 @onready var audio: AudioStreamPlayer = $AudioStreamPlayer
 @onready var score_label: Label = $ScoreLabel

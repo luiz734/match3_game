@@ -1,12 +1,22 @@
 extends Node2D
 
+## Handle the UI for pieces. Any changing in the pieces happens or is called here.
+## Has some important methods related to the Match 3 mechanics.
+## Match 3 related methods here are methods that needs to 
+## change state (movement, index, etc).
+
 const SPRITE_SIZE = 32
 const Match3Core = preload("res://scripts/standalone/match3_core.gd")
 const PiecePrefab = preload("res://scenes/piece.tscn")
+# grid dimensions
 @export var grid_size_x = 6
 @export var grid_size_y = 8
+# ui spacement
 @export var spacement = 0
+# pieces that can generated
 @export var pieces_resources: Array[PieceRes] = []
+# multiplier for each piece type
+# types are MATCH_5, MATCH_T, MATCH_4 and MATCH_3
 @export var multipliers: Array[int] = []
 @onready var pieces_tweener: PieceGroupTweener = $PieceGroupTweener
 # can be 0, 1 or 2
@@ -16,16 +26,19 @@ var require_update = true
 var rng = RandomNumberGenerator.new()
 var _last_match_type: Match3Core.MatchType   
 var _combo_count = 0
+# the array containin the pieces
 var pieces: Array[Piece] = []
+# most of the "match_3 logic" goes in there
+# if a function needs to change the state, it will be in 
+# this script instead
 var match3_core: Match3Core
 
-
-func _ready():
+func _ready() -> void:
     rng.randomize()
-    var seed: int = rng.randi()
-    seed(seed)
+    var gen_seed: int = rng.randi()
+    seed(gen_seed)
     Events.current_score = 0
-    print_debug("Seed:", seed) 
+    print_debug("Seed:", gen_seed) 
     assert(len(multipliers) == 4)
     assert(not pieces_resources.is_empty(), "Add at least 1 piece resource")
     Events.swap_requested.connect(on_swap_requested)
@@ -37,24 +50,26 @@ func _ready():
         pieces.push_back(null)
         
     match3_core = Match3Core.new(grid_size_x, grid_size_y)
-    
-func lock_actions():
+
+## When actios are locked the player cant send inputs, except for quit (Escape).
+func lock_actions() -> void:
     action_locked = true
     Events.input_locket = true
-    
-func unlock_actions():
+func unlock_actions() -> void:
     action_locked = false
     Events.input_locket = false
-  
-func swap_pieces(a, b):
+ 
+## Swap 2 pieces, animating the swap. 
+func swap_pieces(a, b) -> void:
     a.next_index = b.index
     b.next_index = a.index
     pieces[a.index] = b
     pieces[b.index] = a
     var both = [a, b]
-    pieces_tweener.animate_position(both, grid_size_x, grid_size_y, spacement, SPRITE_SIZE)
+    pieces_tweener.animate_position(both, grid_size_x, spacement, SPRITE_SIZE)
     await pieces_tweener.animate_position_finished 
 
+## Swap all pieces. Each piece goes to a new random spot.
 func on_shuffle_requested() -> void:
     assert(not action_locked)
     
@@ -80,11 +95,12 @@ func on_shuffle_requested() -> void:
         pieces[a.index] = b
         pieces[b.index] = a
     
-    pieces_tweener.animate_position(to_swap, grid_size_x, grid_size_y, spacement, SPRITE_SIZE)
+    pieces_tweener.animate_position(to_swap, grid_size_x, spacement, SPRITE_SIZE)
     await pieces_tweener.animate_position_finished 
     unlock_actions()
-    next_match()
+    try_next_match()
 
+## Emited when the user press the swap button. Can or cannot happen.
 func on_swap_requested(a, b) -> void:
     if action_locked:
         return
@@ -100,8 +116,9 @@ func on_swap_requested(a, b) -> void:
         await swap_pieces(a, b)
         
     unlock_actions()
-    next_match()
-    
+    try_next_match()
+
+## Create a new piece and add it as a child.  
 func create_piece_as_child(index) -> Piece:
     var new_piece = PiecePrefab.instantiate()
     
@@ -119,7 +136,9 @@ func create_piece_as_child(index) -> Piece:
     
     return new_piece
 
-func try_move_all_pieces_1_down() -> Array:
+## Starting from the 2nd row from bottom to top, try to move
+## all pieces 1 row to the bottom.
+func try_move_all_pieces_1_row_down() -> Array:
     # first row is dispenser
     # last row ignored
     var moved_pieces = []
@@ -127,7 +146,8 @@ func try_move_all_pieces_1_down() -> Array:
     var end = -1
     var step = -1
     for i in range(start, end, step):
-        var row = floor(i / grid_size_x)
+        @warning_ignore("integer_division")
+        var row = int(i / grid_size_x) 
         var col = i % grid_size_x
         var index_bellow = (row + 1) * grid_size_x + col
         assert(index_bellow >= 0 and index_bellow < grid_size_x * grid_size_y)
@@ -137,7 +157,12 @@ func try_move_all_pieces_1_down() -> Array:
             pieces[index_bellow] = pieces[i]
             pieces[i] = null
     return moved_pieces
-        
+
+## The "Dispenser" is the first row where pieces are created.
+## It's not visible in the UI. Pieces created there are moved to the bottom
+## when necessary.
+## For each piece in the dispenser, if it is empty (null),
+## add a new piece.
 func fill_dispenser() -> bool:
     var one_or_more_filled = false
     for i in range(0, grid_size_x):
@@ -148,8 +173,11 @@ func fill_dispenser() -> bool:
             
     return one_or_more_filled
 
+## Debug variable used to ensure that this method is not called twice
+## before the first call finish.
 var __debug_match_call_count = 0
-func next_match():
+## Try to find a new match (user score).
+func try_next_match() -> void:
     # This should ALWAYS be true or bad things will happen.
     # If it's more that 1, that means that this function was called some 
     # other place and it's still awaiting some signal. Calling again may 
@@ -164,21 +192,25 @@ func next_match():
     lock_actions()
     require_update = true
     _combo_count = -1
+    # require update is triggered when there is "candidates"
+    # candidates are matchable-pieces (pieces that can be scored)
     while require_update:
         _combo_count += 1
         Events.combo_changed.emit(_combo_count)
         if _combo_count == 1:
             Events.combo_started.emit()
-            
+        
+        # continually move the pieces down until it can no longer
         while true:
             fill_dispenser()
-            var dropped_pieces = try_move_all_pieces_1_down()
+            var dropped_pieces = try_move_all_pieces_1_row_down()
             if dropped_pieces.is_empty():
                 break
             else:
-                pieces_tweener.animate_position(dropped_pieces, grid_size_x, grid_size_y, spacement, SPRITE_SIZE)
+                pieces_tweener.animate_position(dropped_pieces, grid_size_x, spacement, SPRITE_SIZE)
                 await pieces_tweener.animate_position_finished
- 
+        
+        # handles the match (score)
         match3_core.reset_removed_from_poll()
         var candidates = match3_core.get_candidate_matches_as_arrays(pieces, cmp_func)
         
@@ -207,7 +239,9 @@ func next_match():
         Events.game_over.emit(Events.current_score)
     
     __debug_match_call_count -= 1
-        
+
+## Used to compare pieces. This method is passed to "match_3_core.gd" to 
+## check for equality. 
 func cmp_func(a: Piece, b: Piece) -> bool:
     if a.used or b.used: return false
     
@@ -216,33 +250,14 @@ func cmp_func(a: Piece, b: Piece) -> bool:
     )
     return match_with
 
-func are_neighbors(a, b):
+## Return true the pieces a and b are ajacent to each other (diagonally doesn't counts).
+func are_neighbors(a, b) -> bool:
     var col_a = a % grid_size_x
     var col_b = b % grid_size_x
-    var row_a = floor(a / grid_size_x)
-    var row_b = floor(b / grid_size_x)
+    var row_a = int(a / grid_size_x)
+    var row_b = int(b / grid_size_x)
     
     var v_neighbor = (col_a == col_b) and (abs(row_a - row_b) == 1)
     var h_neighbor = (row_a == row_b) and (abs(col_a - col_b) == 1)
     
     return v_neighbor or h_neighbor
-    
-## This method make changes INPLACE
-func smash_all_lines():        
-    for col in range(0, grid_size_x, 1):
-        var start = grid_size_x * (grid_size_y - 1) + col
-        var end = col - grid_size_x
-        var step = -grid_size_x
-        var smashed = match3_core.get_notnull_first(pieces, start, end, step)
-        
-        var count = 0
-        for i in range(start, end, step):
-            pieces[i] = smashed[count]
-            if pieces[i]:
-                pieces[i].index = i
-            count += 1
-    
-func fill_null_spots():
-    for i in range(grid_size_x * grid_size_y):
-        if pieces[i] == null:
-            pieces[i] = create_piece_as_child(i)
