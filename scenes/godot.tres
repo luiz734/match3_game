@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PieceRes" load_steps=2 format=3 uid="uid://cj4kvthhcjj7h"]
+
+[ext_resource type="Script" path="res://resources/scripts/piece_res.gd" id="1_fgok4"]
+
+[resource]
+script = ExtResource("1_fgok4")
+points = 0
+type = 0
+matches = Array[int]([])
