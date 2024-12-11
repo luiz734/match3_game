@@ -5,6 +5,8 @@ This is a simple, yet fully functional "match 3" game created using Godot 4.
 
 The core components (`match_3_core.gd` and `grid.gd`) are documented for developers interested in implementing their own match 3 game. While the documentation is not complete, it should provide sufficient guidance.
 
+
+Check it on [itch.io](https://luiz734.itch.io/match3-game)
 ## How to Play?
 - Drag adjacent pieces to make matches.
 - If you get stuck, use the shuffle button.
@@ -18,3 +20,4 @@ I own all the assets used. Feel free to use them. I do not own the fonts.
 
 - **fff-forward**: [license](assets/fonts/fffforwad_license.txt)
 - **terminal-grotesque**: [license](assets/fonts/terminal-grotesque_license.txt)
+
